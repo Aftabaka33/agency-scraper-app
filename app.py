@@ -256,7 +256,15 @@ def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False
                 request_url = f"http://api.scraperapi.com/?api_key={api_key.strip()}&autoparse=true&url={quote_plus(url)}"
                 resp = session.get(request_url, timeout=30)
             else:
-                resp = session.get(url, timeout=10)
+                ua = UserAgent()
+                stealth_headers = {
+                    "User-Agent": ua.random,
+                    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+                    "Accept-Language": "en-US,en;q=0.5",
+                    "Connection": "keep-alive",
+                    "Upgrade-Insecure-Requests": "1",
+                }
+                resp = session.get(url, headers=stealth_headers, timeout=10)
             resp.raise_for_status()
             soup = BeautifulSoup(resp.text, "html.parser")
             page_businesses = []
@@ -376,7 +384,6 @@ def main():
     else:
         st.warning("🚀 Standard Mode: Direct connection. May encounter blocks on some pages. Use Turbo Mode if results fail.")
 
-    generate_btn = st.button("🚀 Generate Leads", type="primary", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
     # ------------------------------------------------------------------
@@ -425,17 +432,17 @@ def main():
 
     GLOBAL_SCRAPE_STOPS["active_run"] = False
 
-    col_btn1, col_btn2 = st.columns(2)
+    col_btn1, col_btn2 = st.columns([3, 1])
     with col_btn1:
-        generate_btn = st.button("🚀 Generate Leads", type="primary", use_container_width=True)
+        generate_clicked = st.button("🚀 Generate Leads", type="primary", use_container_width=True, key="primary_generate_button")
     with col_btn2:
-        stop_btn = st.button("🛑 Stop", type="secondary", use_container_width=True)
+        stop_clicked = st.button("🛑 Stop", use_container_width=True, key="primary_stop_button")
 
-    if stop_btn:
+    if stop_clicked:
         GLOBAL_SCRAPE_STOPS["active_run"] = True
         st.warning("🛑 Stop signal sent. Halting background worker safely...")
 
-    if generate_btn:
+    if generate_clicked:
         if "Turbo" in scrape_mode and not api_key.strip():
             st.error("⚠️ You must enter a valid API Key to use Turbo Mode. Please enter your key or switch to Standard Mode.")
             st.stop()
