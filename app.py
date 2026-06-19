@@ -403,14 +403,21 @@ def main():
 
     st.markdown("</div>", unsafe_allow_html=True)
 
-    # ── Help / Legend ─────────────────────────────────────────────────
-    with st.expander("📖 How It Works", expanded=False):
-        st.markdown("**Region Legend:**")
-        st.markdown("- **United States:** Standard scraper (Direct) and Turbo Mode (API) supported.\n- **United Kingdom:** Standard scraper (Direct) and Turbo Mode (API) supported.\n- **Other Regions:** Only Turbo Mode (API) is supported to bypass security blocks.")
-        st.markdown("**Service Legend:**")
-        st.markdown("The app supports all major home service trades (e.g., Plumbers, Electricians, HVAC, Landscapers, Roofers). Use specific keywords for best results (e.g., use \"Plumber\" instead of \"Pipe Repair\").")
-        st.markdown("**Pro-Tip:**")
-        st.markdown("\"For the most accurate results, use the 'City, State' or 'City, Country' format (e.g., 'Dallas, TX' or 'London, UK').\"")
+    with st.expander("🌍 Supported Regions & Access"):
+        st.markdown("""
+    ### ✅ Fully Supported (Standard & Turbo Mode)
+    **United States:**
+    New York City, Los Angeles, Chicago, Houston, Phoenix, Philadelphia, San Antonio, San Diego, Dallas, San Jose.
+
+    **United Kingdom:**
+    London, Birmingham, Glasgow, Liverpool, Bristol, Manchester, Sheffield, Leeds, Edinburgh, Cardiff, Belfast.
+
+    ### 🚀 Global Access (Turbo Mode Only)
+    **Europe (Premium API Required):**
+    France (Paris), Germany (Berlin), Italy (Rome), Spain (Madrid), Netherlands (Amsterdam), Belgium (Brussels), Austria (Vienna), Czech Republic (Prague), Hungary (Budapest), Portugal (Lisbon), Greece (Athens), Poland (Warsaw), Sweden (Stockholm), Denmark (Copenhagen), Ireland (Dublin), Norway (Oslo), Finland (Helsinki), Switzerland (Bern), Romania (Bucharest), Bulgaria (Sofia).
+
+    *Note: For non-US/UK regions, you MUST use Turbo Mode (Premium API) to ensure reliable data extraction.*
+    """)
 
     # ── Buttons ─────────────────────────────────────────────────────
     use_premium = "Turbo" in scrape_mode
