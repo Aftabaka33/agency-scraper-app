@@ -73,6 +73,12 @@ st.markdown(
 # Turbo Mode routes all requests through this endpoint to bypass Cloudflare.
 PREMIUM_SCRAPER_URL = "http://api.scraperapi.com?api_key={api_key}&autoparse=true&url={target_url}"
 
+# ---------------------------------------------------------------------------
+# Global Stop Registry (thread-safe cross-thread signaling)
+# ---------------------------------------------------------------------------
+if "GLOBAL_SCRAPE_STOPS" not in globals():
+    GLOBAL_SCRAPE_STOPS = {}
+
 
 def get_session():
     """Requests session with rotating headers."""
@@ -225,6 +231,8 @@ def parse_listing(container, service, city, country="US"):
 
 def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False, api_key=None):
     country = get_target_directory(city)
+    global GLOBAL_SCRAPE_STOPS
+    GLOBAL_SCRAPE_STOPS["active_run"] = False
     """Synchronous scrape — safe to call from main Streamlit thread."""
     businesses = []
     session = get_session()
@@ -238,6 +246,10 @@ def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False
     log(f"⚙️ Pages: {max_pages} | Connection: {mode_label}")
 
     for page in range(1, max_pages + 1):
+        global GLOBAL_SCRAPE_STOPS
+        if GLOBAL_SCRAPE_STOPS.get("active_run", False):
+            log("🛑 Scrape stopped by user via global interruption signal.")
+            break
         if progress_callback:
             progress_callback(page, max_pages, f"Page {page}/{max_pages} — fetching...")
         url = build_yellowpages_url(service, city, page, country=country)
@@ -414,6 +426,19 @@ def main():
 
     use_premium = "Turbo" in scrape_mode
 
+    global GLOBAL_SCRAPE_STOPS
+    GLOBAL_SCRAPE_STOPS["active_run"] = False
+
+    col_btn1, col_btn2 = st.columns(2)
+    with col_btn1:
+        generate_btn = st.button("🚀 Generate Leads", type="primary", use_container_width=True)
+    with col_btn2:
+        stop_btn = st.button("🛑 Stop", type="secondary", use_container_width=True)
+
+    if stop_btn:
+        GLOBAL_SCRAPE_STOPS["active_run"] = True
+        st.warning("🛑 Stop signal sent. Halting background worker safely...")
+
     if generate_btn:
         if "Turbo" in scrape_mode and not api_key.strip():
             st.error("⚠️ You must enter a valid API Key to use Turbo Mode. Please enter your key or switch to Standard Mode.")
@@ -427,6 +452,7 @@ def main():
         if detected_country != "US":
             st.info(f"🌍 Detected {detected_country} directory. Routing to yellowpages{'.ca' if detected_country == 'CA' else '.com/uk'}...")
 
+        GLOBAL_SCRAPE_STOPS["active_run"] = False
         progress_bar = st.progress(0.0, text="Starting...")
         status_placeholder = st.empty()
         log_placeholder = st.empty()
