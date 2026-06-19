@@ -70,9 +70,8 @@ st.markdown(
 # ---------------------------------------------------------------------------
 # Backend configuration
 # ---------------------------------------------------------------------------
-# Replace the placeholder with your actual ScraperAPI / ScrapingBee key.
 # Turbo Mode routes all requests through this endpoint to bypass Cloudflare.
-PREMIUM_SCRAPER_URL = "http://api.scraperapi.com?api_key=YOUR_API_KEY_HERE&autoparse=true&url={target_url}"
+PREMIUM_SCRAPER_URL = "http://api.scraperapi.com?api_key={api_key}&autoparse=true&url={target_url}"
 
 
 def get_session():
@@ -110,15 +109,15 @@ def extract_phone(text):
     return ""
 
 
-def extract_email_from_url(url, session, use_premium=False):
+def extract_email_from_url(url, session, use_premium=False, api_key=None):
     if not url or not url.startswith("http"):
         return ""
     try:
         random_delay()
         target = url
-        if use_premium:
-            api_url = PREMIUM_SCRAPER_URL.format(target_url=quote_plus(target))
-            resp = session.get(api_url, timeout=30)
+        if use_premium and api_key:
+            request_url = f"http://api.scraperapi.com/?api_key={api_key.strip()}&autoparse=true&url={quote_plus(target)}"
+            resp = session.get(request_url, timeout=30)
         else:
             resp = session.get(target, timeout=10)
         resp.raise_for_status()
@@ -194,7 +193,7 @@ def parse_listing(container, service, city):
         return None
 
 
-def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False):
+def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False, api_key=None):
     """Synchronous scrape — safe to call from main Streamlit thread."""
     businesses = []
     session = get_session()
@@ -213,9 +212,9 @@ def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False
         url = build_yellowpages_url(service, city, page)
         try:
             random_delay()
-            if use_premium:
-                api_url = PREMIUM_SCRAPER_URL.format(target_url=quote_plus(url))
-                resp = session.get(api_url, timeout=30)
+            if use_premium and api_key:
+                request_url = f"http://api.scraperapi.com/?api_key={api_key.strip()}&autoparse=true&url={quote_plus(url)}"
+                resp = session.get(request_url, timeout=30)
             else:
                 resp = session.get(url, timeout=10)
             resp.raise_for_status()
@@ -276,7 +275,7 @@ def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False
     for i, biz in enumerate(businesses):
         website = biz.get("Website URL", "")
         if website and website.startswith("http"):
-            biz["Email Address"] = extract_email_from_url(website, session, use_premium=use_premium)
+            biz["Email Address"] = extract_email_from_url(website, session, use_premium=use_premium, api_key=api_key)
         if (i + 1) % 10 == 0 and progress_callback:
             progress_callback(max_pages, max_pages, f"Enriching emails... {i+1}/{len(businesses)}")
 
@@ -329,10 +328,11 @@ def main():
         horizontal=True,
         label_visibility="collapsed",
     )
-    use_premium = scrape_mode.startswith("Turbo")
 
-    if use_premium:
-        st.info("⚡ Turbo Mode: All requests routed through premium proxy for maximum success rate. Recommended for best results.")
+    api_key = ""
+    if "Turbo" in scrape_mode:
+        st.info("💡 **How to use Turbo Mode for free:** Sign up at ScraperAPI.com, copy your free API key, and paste it below.")
+        api_key = st.text_input("🔑 Enter your ScraperAPI Key", type="password")
     else:
         st.warning("🚀 Standard Mode: Direct connection. May encounter blocks on some pages. Use Turbo Mode if results fail.")
 
@@ -368,7 +368,7 @@ def main():
         st.markdown("**Primary Western markets optimized for this tool:**")
         regions = {
             "🇺🇸 United States": ["New York NY", "Los Angeles CA", "Chicago IL", "Dallas TX", "Miami FL", "Houston TX", "Phoenix AZ", "Atlanta GA", "Seattle WA", "Denver CO"],
-            "🇬🇧 United Kingdom": ["London", "Manchester", "Birmingham", "Leeds", "Glasgow", "Liverpool", "Bristol", "Sheffield", "Edinburgh", "Cardiff"],
+            "🇬 United Kingdom": ["London", "Manchester", "Birmingham", "Leeds", "Glasgow", "Liverpool", "Bristol", "Sheffield", "Edinburgh", "Cardiff"],
             "🇨🇦 Canada": ["Toronto ON", "Vancouver BC", "Calgary AB", "Montreal QC", "Ottawa ON", "Edmonton AB", "Winnipeg MB", "Victoria BC"],
             "🇦🇺 Australia": ["Sydney NSW", "Melbourne VIC", "Brisbane QLD", "Perth WA", "Adelaide SA", "Gold Coast QLD", "Canberra ACT"],
             "🇪🇺 Europe": ["Dublin IE", "Berlin DE", "Paris FR", "Amsterdam NL", "Madrid ES", "Rome IT", "Vienna AT", "Zurich CH"],
@@ -381,7 +381,13 @@ def main():
 
     st.markdown("</div>", unsafe_allow_html=True)
 
+    use_premium = "Turbo" in scrape_mode
+
     if generate_btn:
+        if "Turbo" in scrape_mode and not api_key.strip():
+            st.error("⚠️ You must enter a valid API Key to use Turbo Mode. Please enter your key or switch to Standard Mode.")
+            st.stop()
+
         if not service.strip() or not city.strip():
             st.warning("Please enter both a Service Type and a City.")
             st.stop()
@@ -396,7 +402,7 @@ def main():
 
         with st.spinner("Scraping in progress... Please wait 1-2 minutes while we gather your leads."):
             try:
-                results, logs = scrape(service.strip(), city.strip(), max_pages=5, progress_callback=progress_callback, use_premium=use_premium)
+                results, logs = scrape(service.strip(), city.strip(), max_pages=5, progress_callback=progress_callback, use_premium=use_premium, api_key=api_key.strip() if api_key else None)
             except Exception as e:
                 st.error(f"Fatal error: {e}")
                 st.stop()
