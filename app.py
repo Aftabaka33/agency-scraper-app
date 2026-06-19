@@ -403,15 +403,26 @@ def main():
 
     st.markdown("</div>", unsafe_allow_html=True)
 
+    # ── Help / Legend ─────────────────────────────────────────────────
+    with st.expander("📖 How It Works", expanded=False):
+        st.markdown("**Region Legend:**")
+        st.markdown("- **United States:** Standard scraper (Direct) and Turbo Mode (API) supported.\n- **United Kingdom:** Standard scraper (Direct) and Turbo Mode (API) supported.\n- **Other Regions:** Only Turbo Mode (API) is supported to bypass security blocks.")
+        st.markdown("**Service Legend:**")
+        st.markdown("The app supports all major home service trades (e.g., Plumbers, Electricians, HVAC, Landscapers, Roofers). Use specific keywords for best results (e.g., use \"Plumber\" instead of \"Pipe Repair\").")
+        st.markdown("**Pro-Tip:**")
+        st.markdown("\"For the most accurate results, use the 'City, State' or 'City, Country' format (e.g., 'Dallas, TX' or 'London, UK').\"")
+
     # ── Buttons ─────────────────────────────────────────────────────
     use_premium = "Turbo" in scrape_mode
     GLOBAL_SCRAPE_STOPS["active_run"] = False
 
     col1, col2 = st.columns([3, 1])
+
+    # Unique keys are mandatory to prevent the DuplicateElementId error
     with col1:
-        generate_clicked = st.button("🚀 Generate Leads", type="primary", use_container_width=True, key="btn_gen_v1")
+        generate_clicked = st.button("🚀 Generate Leads", type="primary", use_container_width=True, key="unique_generate_btn_001")
     with col2:
-        stop_clicked = st.button("🛑 Stop", use_container_width=True, key="btn_stop_v1")
+        stop_clicked = st.button("🛑 Stop", use_container_width=True, key="unique_stop_btn_001")
 
     if stop_clicked:
         GLOBAL_SCRAPE_STOPS["active_run"] = True
