@@ -139,46 +139,76 @@ def extract_email_from_url(url, session, use_premium=False, api_key=None):
         return ""
 
 
-def build_yellowpages_url(service, city, page=1):
+def get_target_directory(city_input):
+    city_lower = city_input.strip().lower()
+    uk_markers = ["uk", "london", "england", "manchester", "birmingham", "scotland", "wales"]
+    ca_markers = ["canada", "ab", "bc", "on", "qc", "calgary", "toronto", "vancouver", "montreal"]
+    for marker in uk_markers:
+        if marker in city_lower:
+            return "UK"
+    for marker in ca_markers:
+        if marker in city_lower:
+            return "CA"
+    return "US"
+
+
+def build_yellowpages_url(service, city, page=1, country="US"):
     encoded_service = quote_plus(service.strip())
     encoded_city = quote_plus(city.strip())
-    base = "https://www.yellowpages.com/search"
-    if page == 1:
-        return f"{base}?search_terms={encoded_service}&geo_location_terms={encoded_city}"
-    return f"{base}?search_terms={encoded_service}&geo_location_terms={encoded_city}&page={page}"
+    if country == "CA":
+        return f"https://www.yellowpages.ca/search/si/{page}/{encoded_service}/{encoded_city}"
+    elif country == "UK":
+        return f"https://www.yell.com/ucs/UcsSearchAction.do?keywords={encoded_service}&location={encoded_city}&pageNum={page}"
+    else:
+        base = "https://www.yellowpages.com/search"
+        if page == 1:
+            return f"{base}?search_terms={encoded_service}&geo_location_terms={encoded_city}"
+        return f"{base}?search_terms={encoded_service}&geo_location_terms={encoded_city}&page={page}"
 
 
-def parse_listing(container, service, city):
+def parse_listing(container, service, city, country="US"):
     try:
         name = ""
-        for tag, cls in [("a", re.compile("business-name", re.I)), ("h2", None), ("span", re.compile("business-name", re.I))]:
-            el = container.find(tag, class_=cls) if cls else container.find(tag)
-            if el:
-                name = el.get_text(strip=True)
-                if name:
+        website = ""
+        address = ""
+        if country == "US":
+            for tag, cls in [("a", re.compile("business-name", re.I)), ("h2", None), ("span", re.compile("business-name", re.I))]:
+                el = container.find(tag, class_=cls) if cls else container.find(tag)
+                if el:
+                    name = el.get_text(strip=True)
+                    if name:
+                        break
+            phone_el = container.find("div", class_=re.compile("phones|phone", re.I))
+            phone = phone_el.get_text(strip=True) if phone_el else ""
+            if not phone:
+                phone = extract_phone(container.get_text())
+            link_el = container.find("a", class_=re.compile("track-visit-website|website-link", re.I))
+            if link_el:
+                website = link_el.get("href", "")
+            if not website:
+                for a in container.find_all("a", href=True):
+                    href = a["href"]
+                    if href.startswith("http") and "yellowpages.com" not in href:
+                        website = href
+                        break
+            addr_el = container.find("div", class_=re.compile("street-address|adr", re.I))
+            if addr_el:
+                address = addr_el.get_text(strip=True)
+        else:
+            for tag in ["h2", "h3", "h1"]:
+                el = container.find(tag)
+                if el:
+                    name = el.get_text(strip=True)
+                    if name and 2 <= len(name) <= 80:
+                        break
+            phone = extract_phone(container.get_text())
+            for a in container.find_all("a", href=True):
+                href = a["href"]
+                if href.startswith("http") and "yellowpages.com" not in href and "yell.com" not in href:
+                    website = href
                     break
         if not name or len(name) < 2:
             return None
-        phone = ""
-        phone_el = container.find("div", class_=re.compile("phones|phone", re.I))
-        if phone_el:
-            phone = phone_el.get_text(strip=True)
-        if not phone:
-            phone = extract_phone(container.get_text())
-        website = ""
-        link_el = container.find("a", class_=re.compile("track-visit-website|website-link", re.I))
-        if link_el:
-            website = link_el.get("href", "")
-        if not website:
-            for a in container.find_all("a", href=True):
-                href = a["href"]
-                if href.startswith("http") and "yellowpages.com" not in href:
-                    website = href
-                    break
-        address = ""
-        addr_el = container.find("div", class_=re.compile("street-address|adr", re.I))
-        if addr_el:
-            address = addr_el.get_text(strip=True)
         return {
             "Business Name": name,
             "Phone Number": phone,
@@ -194,6 +224,7 @@ def parse_listing(container, service, city):
 
 
 def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False, api_key=None):
+    country = get_target_directory(city)
     """Synchronous scrape — safe to call from main Streamlit thread."""
     businesses = []
     session = get_session()
@@ -203,13 +234,13 @@ def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False
         log_lines.append(msg)
 
     mode_label = "⚡ Turbo Mode (Premium API)" if use_premium else "🚀 Standard Mode (Direct)"
-    log(f"🎯 Target: {service} in {city}")
+    log(f"🎯 Target: {service} in {city} ({country})")
     log(f"⚙️ Pages: {max_pages} | Connection: {mode_label}")
 
     for page in range(1, max_pages + 1):
         if progress_callback:
             progress_callback(page, max_pages, f"Page {page}/{max_pages} — fetching...")
-        url = build_yellowpages_url(service, city, page)
+        url = build_yellowpages_url(service, city, page, country=country)
         try:
             random_delay()
             if use_premium and api_key:
@@ -222,13 +253,13 @@ def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False
             page_businesses = []
             results = soup.find_all("div", class_=re.compile("result|listing|v-card", re.I))
             for r in results:
-                biz = parse_listing(r, service, city)
+                biz = parse_listing(r, service, city, country=country)
                 if biz:
                     page_businesses.append(biz)
             if not page_businesses:
                 results = soup.find_all("div", class_=re.compile("srp-listing|search-result", re.I))
                 for r in results:
-                    biz = parse_listing(r, service, city)
+                    biz = parse_listing(r, service, city, country=country)
                     if biz:
                         page_businesses.append(biz)
             if not page_businesses:
@@ -368,7 +399,7 @@ def main():
         st.markdown("**Primary Western markets optimized for this tool:**")
         regions = {
             "🇺🇸 United States": ["New York NY", "Los Angeles CA", "Chicago IL", "Dallas TX", "Miami FL", "Houston TX", "Phoenix AZ", "Atlanta GA", "Seattle WA", "Denver CO"],
-            "🇬 United Kingdom": ["London", "Manchester", "Birmingham", "Leeds", "Glasgow", "Liverpool", "Bristol", "Sheffield", "Edinburgh", "Cardiff"],
+            "🇬🇧 United Kingdom": ["London", "Manchester", "Birmingham", "Leeds", "Glasgow", "Liverpool", "Bristol", "Sheffield", "Edinburgh", "Cardiff"],
             "🇨🇦 Canada": ["Toronto ON", "Vancouver BC", "Calgary AB", "Montreal QC", "Ottawa ON", "Edmonton AB", "Winnipeg MB", "Victoria BC"],
             "🇦🇺 Australia": ["Sydney NSW", "Melbourne VIC", "Brisbane QLD", "Perth WA", "Adelaide SA", "Gold Coast QLD", "Canberra ACT"],
             "🇪🇺 Europe": ["Dublin IE", "Berlin DE", "Paris FR", "Amsterdam NL", "Madrid ES", "Rome IT", "Vienna AT", "Zurich CH"],
@@ -391,6 +422,10 @@ def main():
         if not service.strip() or not city.strip():
             st.warning("Please enter both a Service Type and a City.")
             st.stop()
+
+        detected_country = get_target_directory(city)
+        if detected_country != "US":
+            st.info(f"🌍 Detected {detected_country} directory. Routing to yellowpages{'.ca' if detected_country == 'CA' else '.com/uk'}...")
 
         progress_bar = st.progress(0.0, text="Starting...")
         status_placeholder = st.empty()
