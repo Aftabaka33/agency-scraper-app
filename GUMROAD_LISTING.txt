@@ -5,12 +5,12 @@
 ───────────────────────────────────────────────────────────────
 PRODUCT TITLE
 ───────────────────────────────────────────────────────────────
-Home Services Lead Scraper PRO — Unlimited Web Design & SEO Client Leads for Agencies (Yellow Pages Scraper, CSV Export, Anti-Blocking Technology)
+Home Services Lead Scraper PRO — Unlimited Web Design & SEO Client Leads for Agencies (Yellow Pages Scraper, CSV Export, Dual-Mode Scraping)
 
 ───────────────────────────────────────────────────────────────
 SUBTITLE / TAGLINE
 ───────────────────────────────────────────────────────────────
-Stop Cold Emailing Random Businesses. Get Pre-Qualified Local Service Leads on Demand.
+Stop Cold Emailing Random Businesses. Get Pre-Qualified Local Service Leads on Demand — Now with Turbo Mode.
 
 ───────────────────────────────────────────────────────────────
 PRICE
@@ -20,7 +20,7 @@ $59.00 (One-time payment — lifetime access)
 ───────────────────────────────────────────────────────────────
 PRODUCT CATEGORY
 ───────────────────────────────────────────────────────────────
-Software > Python Scripts / Marketing Tools
+Software > Python Apps & Marketing Tools
 
 ───────────────────────────────────────────────────────────────
 PRODUCT DESCRIPTION (GUMROAD FORMAT)
@@ -38,7 +38,7 @@ Most agencies waste time with:
 
 **Home Services Lead Scraper PRO** solves this in 60 seconds flat.
 
-Just type in a service (e.g., "roofer") and a city (e.g., "Dallas TX"), and get a clean CSV file with:
+Just type in a service (e.g., "roofer") and a city (e.g., "Dallas TX"), pick your mode, and get a clean CSV file with:
 
   ✅ Business Names
   ✅ Phone Numbers
@@ -47,6 +47,15 @@ Just type in a service (e.g., "roofer") and a city (e.g., "Dallas TX"), and get 
   ✅ Business Addresses
 
 That's it. Open the file. Start pitching.
+
+---
+
+🆕 WHAT'S NEW — DUAL-MODE ENGINE:
+
+  ⚡ Turbo Mode (Premium API) — Routes all requests through a high-success proxy. Bypasses Cloudflare and data-center IP blocks. Best for cloud hosting (Streamlit Cloud, Render, Heroku).
+  🚀 Standard Mode (Direct) — Free direct connection to Yellow Pages. Great for local use on your own machine.
+
+Switch between modes instantly. No extra setup. No limits.
 
 ---
 
@@ -66,19 +75,21 @@ Most lead gen tools charge $100-$500/month and give you LOW-QUALITY, outdated le
 
 This tool:
   ⚡ Scrapes LIVE Yellow Pages data — always current
-  ⚡ Gives you UNLIMITED searches — no monthly limits
+  ⚡ Dual-mode engine — free direct connection OR premium proxy for max reliability
+  ⚡ UNLIMITED searches — no monthly limits
   ⚡ Includes ANTI-BLOCKING technology (rotating user-agents, random delays)
   ⚡ Exports directly to CSV — plug straight into Excel/Sheets
   ⚡ One-time payment — no subscriptions, no credit card traps
-  ⚡ Works on Windows and Mac — just run the script
+  ⚡ Streamlit web app — clean, modern UI. Launch locally or deploy to the cloud in minutes.
 
 ---
 
 📂 WHAT'S INCLUDED?
 
-  • agency_scraper.py — The main scraping script (well-commented, beginner-friendly)
+  • app.py — The complete Streamlit web app (dual-mode, synchronous, cloud-ready)
+  • agency_scraper.py — Original CLI script for power users
   • requirements.txt — List of required libraries (Python 3.8+)
-  • README_USER_MANUAL.md — Step-by-step idiot-proof instructions for non-technical users
+  • README_USER_MANUAL.md — Step-by-step instructions for non-technical users
   • GUMROAD_LISTING.txt — This file
   • LICENSE.txt — Commercial use license
 
@@ -88,11 +99,11 @@ This tool:
 
 1. Install Python (free, 2 minutes)
 2. Run: pip install -r requirements.txt
-3. Run: python agency_scraper.py
-4. Enter service type (e.g., "plumber") and city (e.g., "London UK")
-5. Open agency_leads.csv and start pitching
+3. Run: streamlit run app.py
+4. Choose Standard or Turbo mode, enter service + city, click Generate Leads
+5. Download your CSV and start pitching
 
-No complicated setup. No API keys. No monthly fees.
+No complicated setup. No monthly fees.
 
 ---
 
@@ -101,18 +112,21 @@ No complicated setup. No API keys. No monthly fees.
 **Web Designer → Roofing Companies**
   Service: "roofer"
   City: "Austin TX"
+  Mode: Turbo
   Output: 100+ roofing companies with websites, phones, and emails
   Your pitch: "Hey, I noticed your website could use an upgrade. I help roofers get more customers from their site. Want a free audit?"
 
 **SEO Agency → Plumbers**
   Service: "plumber"
   City: "Miami FL"
+  Mode: Standard
   Output: 80+ plumbing businesses
   Your pitch: "I help local plumbers rank #1 on Google. Free 15-min strategy call?"
 
 **WordPress Developer → Electricians**
   Service: "electrician"
   City: "Chicago IL"
+  Mode: Turbo
   Output: 120+ electrical contractors
   Your pitch: "Your current site is loading slow. I rebuild WordPress sites for electricians — 2-week turnaround."
 
@@ -125,6 +139,7 @@ No complicated setup. No API keys. No monthly fees.
   • Results vary based on city size and service type — major metros return 100-200+ leads per search
   • Email extraction visits the business website's homepage only (not deep pages)
   • The script includes built-in delays to prevent being blocked
+  • Turbo Mode requires a premium scraping API key (ScraperAPI, ScrapingBee, or similar)
 
 ---
 
@@ -136,6 +151,7 @@ No complicated setup. No API keys. No monthly fees.
   • Cold email templates that get responses
   • How to import leads into HubSpot, Streak, or Google Sheets
   • Scaling to 1,000+ leads across multiple cities
+  • How to deploy the app for free on Streamlit Cloud
 
 ---
 

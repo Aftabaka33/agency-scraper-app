@@ -1,22 +1,18 @@
 """
-Home Services Lead Scraper Pro — Streamlit Web App
-===================================================
-Production-ready cloud-hostable web application with proxy rotation
-and anti-blocking technology for Yellow Pages scraping.
+Home Services Lead Scraper Pro — Streamlit Web App (Cloud Stable)
+=================================================================
+Production-ready cloud-hostable web application.
+Synchronous execution (no threading) with dual-mode scraping:
+Standard Mode (direct connection) and Turbo Mode (premium proxy API).
 
 Author: Blue Ocean Digital Products
 License: Commercial - See LICENSE.txt for details
 """
 
-import csv
 import io
-import json
-import os
 import re
-import sys
 import time
 import random
-import threading
 from datetime import datetime
 from urllib.parse import quote_plus
 
@@ -24,10 +20,6 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from fake_useragent import UserAgent
-
-# ---------------------------------------------------------------------------
-# Streamlit imports
-# ---------------------------------------------------------------------------
 import streamlit as st
 
 # ---------------------------------------------------------------------------
@@ -36,321 +28,58 @@ import streamlit as st
 st.set_page_config(
     page_title="Home Services Lead Scraper PRO",
     page_icon="🏠",
-    layout="wide",
-    initial_sidebar_state="expanded",
+    layout="centered",
 )
 
 # ---------------------------------------------------------------------------
-# Custom CSS for professional look
+# Custom CSS
 # ---------------------------------------------------------------------------
 st.markdown(
     """
 <style>
     :root {
         --primary: #1a73e8;
-        --primary-dark: #1557b0;
-        --bg: #f8f9fa;
-        --card-bg: #ffffff;
-        --text: #202124;
-        --text-secondary: #5f6368;
         --success: #0f9d58;
-        --warning: #f29900;
-        --error: #d93025;
+        --turbo: #f9ab00;
+        --bg: #f8f9fa;
+        --card: #ffffff;
+        --text: #202124;
         --border: #dadce0;
     }
-
-    * { box-sizing: border-box; }
-
-    html, body {
-        background-color: var(--bg);
-        color: var(--text);
-        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    .main-header {
-        text-align: center;
-        padding: 2rem 1rem 1rem;
-        background: linear-gradient(135deg, #1a73e8 0%, #4285f4 50%, #0f9d58 100%);
-        color: white;
-        border-radius: 12px;
-        margin-bottom: 2rem;
-        box-shadow: 0 4px 20px rgba(26,115,232,0.25);
-    }
-
-    .main-header h1 {
-        font-size: 2.2rem;
-        font-weight: 700;
-        margin: 0;
-        letter-spacing: -0.5px;
-    }
-
-    .main-header p {
-        font-size: 1.1rem;
-        opacity: 0.92;
-        margin-top: 0.5rem;
-    }
-
-    .badge-row {
-        display: flex;
-        gap: 10px;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-top: 1rem;
-    }
-
-    .badge {
-        background: rgba(255,255,255,0.2);
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        backdrop-filter: blur(4px);
-    }
-
-    .card {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    }
-
-    .card h3 {
-        margin-top: 0;
-        font-size: 1.15rem;
-        color: var(--text);
-    }
-
-    .stat-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        gap: 1rem;
-        margin-top: 1rem;
-    }
-
-    .stat-box {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 1.2rem;
-        text-align: center;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-    }
-
-    .stat-box .value {
-        font-size: 2rem;
-        font-weight: 700;
-        color: var(--primary);
-    }
-
-    .stat-box .label {
-        font-size: 0.85rem;
-        color: var(--text-secondary);
-        margin-top: 0.25rem;
-    }
-
-    .stDownloadButton>button {
-        background: var(--success) !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 8px !important;
-        padding: 0.75rem 2rem !important;
-        font-size: 1.1rem !important;
-        font-weight: 600 !important;
-        width: 100% !important;
-        transition: all 0.2s !important;
-    }
-
-    .stDownloadButton>button:hover {
-        background: #0b8043 !important;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(15,157,88,0.3);
-    }
-
-    .log-box {
-        background: #1e1e1e;
-        color: #d4d4d4;
-        font-family: 'Consolas', 'Courier New', monospace;
-        font-size: 0.85rem;
-        padding: 1rem;
-        border-radius: 8px;
-        max-height: 320px;
-        overflow-y: auto;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-    }
-
-    .log-info { color: #4fc3f7; }
-    .log-success { color: #81c784; }
-    .log-warning { color: #ffb74d; }
-    .log-error { color: #e57373; }
-
-    footer {
-        text-align: center;
-        padding: 2rem 1rem;
-        color: var(--text-secondary);
-        font-size: 0.85rem;
-    }
+    html, body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    .main-header { text-align: center; padding: 2rem 1rem 1rem; background: linear-gradient(135deg, #1a73e8 0%, #4285f4 50%, #0f9d58 100%); color: white; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 4px 20px rgba(26,115,232,0.25); }
+    .main-header h1 { font-size: 2rem; font-weight: 700; margin: 0; letter-spacing: -0.5px; }
+    .main-header p { font-size: 1.05rem; opacity: 0.92; margin-top: 0.5rem; }
+    .badge-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
+    .badge { background: rgba(255,255,255,0.2); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .card h3 { margin-top: 0; font-size: 1.1rem; }
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .stat-box { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; text-align: center; }
+    .stat-box .value { font-size: 1.8rem; font-weight: 700; color: var(--primary); }
+    .stat-box .label { font-size: 0.8rem; color: #5f6368; margin-top: 0.25rem; }
+    .stDownloadButton>button { background: var(--success) !important; color: white !important; border: none !important; border-radius: 8px !important; padding: 0.75rem 2rem !important; font-size: 1.1rem !important; font-weight: 600 !important; width: 100% !important; }
+    .log-box { background: #1e1e1e; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.82rem; padding: 1rem; border-radius: 8px; max-height: 300px; overflow-y: auto; white-space: pre-wrap; word-wrap: break-word; }
+    .log-info { color: #4fc3f7; } .log-success { color: #81c784; } .log-warning { color: #ffb74d; } .log-error { color: #e57373; }
+    footer { text-align: center; padding: 2rem 1rem; color: #5f6368; font-size: 0.82rem; }
 </style>
 """,
     unsafe_allow_html=True,
 )
 
-
 # ---------------------------------------------------------------------------
-# Session state initialization
+# Backend configuration
 # ---------------------------------------------------------------------------
-def init_session_state():
-    defaults = {
-        "scrape_running": False,
-        "scrape_done": False,
-        "businesses": [],
-        "logs": [],
-        "progress": 0.0,
-        "status_text": "Idle",
-        "csv_bytes": None,
-        "csv_filename": "",
-        "proxy_mode": "Direct",
-        "premium_api_key": "",
-        "premium_api_url": "",
-    }
-    for k, v in defaults.items():
-        if k not in st.session_state:
-            st.session_state[k] = v
+# Replace the placeholder with your actual ScraperAPI / ScrapingBee key.
+# Turbo Mode routes all requests through this endpoint to bypass Cloudflare.
+PREMIUM_SCRAPER_URL = "http://api.scraperapi.com?api_key=YOUR_API_KEY_HERE&autoparse=true&url={target_url}"
 
 
-init_session_state()
-
-
-# ---------------------------------------------------------------------------
-# Proxy Manager
-# ---------------------------------------------------------------------------
-class ProxyManager:
-    """
-    Modular 3-tier proxy system:
-      1. Direct (no proxy) — default, works on localhost.
-      2. Free public proxies — fetched from public APIs, auto-rotated on failure.
-      3. Premium scraping APIs — ScraperAPI, ScrapingBee, etc. Drop-in configurable.
-
-    Usage:
-        pm = ProxyManager(mode="Direct")          # no proxy
-        pm = ProxyManager(mode="Free Proxies")    # auto-rotate free proxies
-        pm = ProxyManager(
-            mode="Premium API",
-            premium_api_url="http://api.scraperapi.com?key=...",
-            premium_api_key="YOUR_KEY"
-        )
-    """
-
-    FREE_PROXY_SOURCES = [
-        "https://www.proxy-list.download/api/v1/get?type=https",
-        "https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/https.txt",
-        "https://raw.githubusercontent.com/monosans/proxy-list/main/proxies_https.txt",
-    ]
-
-    def __init__(self, mode="Direct", premium_api_url="", premium_api_key=""):
-        self.mode = mode
-        self.premium_api_url = premium_api_url
-        self.premium_api_key = premium_api_key
-        self.free_proxies = []
-        self.free_proxy_index = 0
-        self.current_proxy = None
-        self.failure_counts = {}
-
-    # ------------------------------------------------------------------
-    # Fetch free proxies
-    # ------------------------------------------------------------------
-    def fetch_free_proxies(self, max_proxies=30):
-        """Try multiple sources to fetch a list of working HTTPS proxies."""
-        proxies = set()
-        headers = {"User-Agent": UserAgent().random}
-
-        for source in self.FREE_PROXY_SOURCES:
-            try:
-                resp = requests.get(source, headers=headers, timeout=10)
-                if resp.status_code == 200:
-                    for line in resp.text.strip().split("\n"):
-                        line = line.strip()
-                        if re.match(r"\d+\.\d+\.\d+\.\d+:\d+", line):
-                            proxies.add(f"http://{line}")
-                if len(proxies) >= max_proxies:
-                    break
-            except Exception:
-                continue
-
-        self.free_proxies = list(proxies)
-        return self.free_proxies
-
-    # ------------------------------------------------------------------
-    # Get next proxy dict for requests
-    # ------------------------------------------------------------------
-    def get_proxy_dict(self):
-        if self.mode == "Direct":
-            return None
-
-        if self.mode == "Premium API":
-            return self._build_premium_proxy()
-
-        if self.mode == "Free Proxies":
-            return self._get_next_free_proxy()
-
-        return None
-
-    def _build_premium_proxy(self):
-        """Build proxy dict for premium scraping APIs."""
-        if not self.premium_api_url:
-            return None
-        return {"http": self.premium_api_url, "https": self.premium_api_url}
-
-    def _get_next_free_proxy(self):
-        """Round-robin through free proxies, skipping known-bad ones."""
-        if not self.free_proxies:
-            self.fetch_free_proxies()
-
-        if not self.free_proxies:
-            return None
-
-        for _ in range(len(self.free_proxies)):
-            proxy = self.free_proxies[self.free_proxy_index]
-            self.free_proxy_index = (self.free_proxy_index + 1) % len(self.free_proxies)
-            if self.failure_counts.get(proxy, 0) < 3:
-                return {"http": proxy, "https": proxy}
-
-        # All proxies exhausted
-        self.free_proxies = []
-        self.free_proxy_index = 0
-        return None
-
-    # ------------------------------------------------------------------
-    # Mark proxy as failed / success
-    # ------------------------------------------------------------------
-    def mark_success(self, proxy):
-        if proxy:
-            self.failure_counts.pop(proxy, None)
-
-    def mark_failure(self, proxy):
-        if proxy:
-            self.failure_counts[proxy] = self.failure_counts.get(proxy, 0) + 1
-
-
-# ---------------------------------------------------------------------------
-# Logging helper
-# ---------------------------------------------------------------------------
-def add_log(message, level="info"):
-    timestamp = datetime.now().strftime("%H:%M:%S")
-    st.session_state.logs.append(f"[{timestamp}] {message}")
-    if len(st.session_state.logs) > 200:
-        st.session_state.logs = st.session_state.logs[-200:]
-
-
-# ---------------------------------------------------------------------------
-# Scraping helpers (refactored from agency_scraper.py)
-# ---------------------------------------------------------------------------
-def get_random_headers():
-    ua = UserAgent()
-    return {
-        "User-Agent": ua.random,
+def get_session():
+    """Requests session with rotating headers."""
+    s = requests.Session()
+    s.headers.update({
+        "User-Agent": UserAgent().random,
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.9",
         "Accept-Encoding": "gzip, deflate, br",
@@ -358,7 +87,8 @@ def get_random_headers():
         "Upgrade-Insecure-Requests": "1",
         "Cache-Control": "no-cache",
         "Referer": "https://www.yellowpages.com/",
-    }
+    })
+    return s
 
 
 def random_delay(min_delay=2, max_delay=5):
@@ -369,9 +99,9 @@ def extract_phone(text):
     if not text:
         return ""
     patterns = [
-        r"\(?\d{3}\)?[-.\\s]\\d{3}[-.\\s]\\d{4}",
-        r"\\+?1[-.\\s]?\\(?\\d{3}\\)?[-.\\s]\\d{3}[-.\\s]\\d{4}",
-        r"\\d{3}[-.\\s]\\d{3}[-.\\s]\\d{4}",
+        r"\(?\d{3}\)?[-.\s]\d{3}[-.\s]\d{4}",
+        r"\+?1[-.\s]?\(?\d{3}\)?[-.\s]\d{3}[-.\s]\d{4}",
+        r"\d{3}[-.\s]\d{3}[-.\s]\d{4}",
     ]
     for p in patterns:
         m = re.search(p, text)
@@ -380,30 +110,23 @@ def extract_phone(text):
     return ""
 
 
-def extract_email_from_url(url, session, headers, proxy_manager):
+def extract_email_from_url(url, session, use_premium=False):
     if not url or not url.startswith("http"):
         return ""
     try:
         random_delay()
-        proxy = proxy_manager.get_proxy_dict()
-        resp = session.get(
-            url, headers=headers, timeout=15, allow_redirects=True, proxies=proxy
-        )
+        target = url
+        if use_premium:
+            api_url = PREMIUM_SCRAPER_URL.format(target_url=quote_plus(target))
+            resp = session.get(api_url, timeout=30)
+        else:
+            resp = session.get(target, timeout=10)
         resp.raise_for_status()
         soup = BeautifulSoup(resp.text, "html.parser")
         text = soup.get_text()
-        emails = re.findall(r"[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}", text)
-        junk = {
-            "example@example.com", "email@example.com", "your@email.com",
-            "name@domain.com", "user@example.com", "info@example.com",
-            "support@example.com", "admin@example.com", "webmaster@example.com",
-        }
-        valid = [
-            e for e in emails
-            if e.lower() not in junk
-            and not e.endswith((".png", ".jpg", ".gif", ".svg", ".css", ".js", ".json", ".xml"))
-            and "noreply" not in e.lower()
-        ]
+        emails = re.findall(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}", text)
+        junk = {"example@example.com", "email@example.com", "your@email.com", "name@domain.com", "user@example.com", "info@example.com", "support@example.com", "admin@example.com", "webmaster@example.com"}
+        valid = [e for e in emails if e.lower() not in junk and "noreply" not in e.lower() and not e.endswith((".png", ".jpg", ".gif", ".svg", ".css", ".js", ".json", ".xml"))]
         if valid:
             return valid[0]
         mailto_links = soup.find_all("a", href=re.compile(r"^mailto:", re.I))
@@ -417,9 +140,6 @@ def extract_email_from_url(url, session, headers, proxy_manager):
         return ""
 
 
-# ---------------------------------------------------------------------------
-# Yellow Pages parsing
-# ---------------------------------------------------------------------------
 def build_yellowpages_url(service, city, page=1):
     query = f"{service} {city}"
     encoded = quote_plus(query)
@@ -429,31 +149,23 @@ def build_yellowpages_url(service, city, page=1):
     return f"{base}?search_terms={encoded}&page={page}"
 
 
-def parse_yellowpages_listing(container, service, city):
+def parse_listing(container, service, city):
     try:
         name = ""
-        for selector in [
-            ("a", re.compile("business-name", re.I)),
-            ("h2", None),
-            ("span", re.compile("business-name", re.I)),
-        ]:
-            tag, cls = selector
+        for tag, cls in [("a", re.compile("business-name", re.I)), ("h2", None), ("span", re.compile("business-name", re.I))]:
             el = container.find(tag, class_=cls) if cls else container.find(tag)
             if el:
                 name = el.get_text(strip=True)
                 if name:
                     break
-
         if not name or len(name) < 2:
             return None
-
         phone = ""
         phone_el = container.find("div", class_=re.compile("phones|phone", re.I))
         if phone_el:
             phone = phone_el.get_text(strip=True)
         if not phone:
             phone = extract_phone(container.get_text())
-
         website = ""
         link_el = container.find("a", class_=re.compile("track-visit-website|website-link", re.I))
         if link_el:
@@ -464,12 +176,10 @@ def parse_yellowpages_listing(container, service, city):
                 if href.startswith("http") and "yellowpages.com" not in href:
                     website = href
                     break
-
         address = ""
         addr_el = container.find("div", class_=re.compile("street-address|adr", re.I))
         if addr_el:
             address = addr_el.get_text(strip=True)
-
         return {
             "Business Name": name,
             "Phone Number": phone,
@@ -484,66 +194,44 @@ def parse_yellowpages_listing(container, service, city):
         return None
 
 
-# ---------------------------------------------------------------------------
-# Main scraping function (used inside a thread to keep UI responsive)
-# ---------------------------------------------------------------------------
-def run_scrape(service, city, max_pages, proxy_mode, premium_api_url, premium_api_key, progress_callback=None):
-    """
-    Runs the scrape in a background thread. Updates st.session_state.
-    progress_callback(current_page, total_pages, message) -> None
-    """
-    proxy_manager = ProxyManager(
-        mode=proxy_mode,
-        premium_api_url=premium_api_url,
-        premium_api_key=premium_api_key,
-    )
-
-    if proxy_mode == "Free Proxies":
-        add_log("Fetching free proxies...", "info")
-        proxies = proxy_manager.fetch_free_proxies()
-        add_log(f"Loaded {len(proxies)} free proxies.", "info")
-
+def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False):
+    """Synchronous scrape — safe to call from main Streamlit thread."""
     businesses = []
-    session = requests.Session()
-    headers = get_random_headers()
+    session = get_session()
+    log_lines = []
 
-    add_log(f"Target: {service} in {city}", "info")
-    add_log(f"Proxy mode: {proxy_mode}", "info")
+    def log(msg):
+        log_lines.append(msg)
+
+    mode_label = "⚡ Turbo Mode (Premium API)" if use_premium else "🚀 Standard Mode (Direct)"
+    log(f"🎯 Target: {service} in {city}")
+    log(f"⚙️ Pages: {max_pages} | Connection: {mode_label}")
 
     for page in range(1, max_pages + 1):
-        if not st.session_state.scrape_running:
-            add_log("Scrape stopped by user.", "warning")
-            break
-
-        url = build_yellowpages_url(service, city, page)
         if progress_callback:
             progress_callback(page, max_pages, f"Page {page}/{max_pages} — fetching...")
-
+        url = build_yellowpages_url(service, city, page)
         try:
             random_delay()
-            proxy = proxy_manager.get_proxy_dict()
-            resp = session.get(url, headers=headers, timeout=20, proxies=proxy)
+            if use_premium:
+                api_url = PREMIUM_SCRAPER_URL.format(target_url=quote_plus(url))
+                resp = session.get(api_url, timeout=30)
+            else:
+                resp = session.get(url, timeout=10)
             resp.raise_for_status()
             soup = BeautifulSoup(resp.text, "html.parser")
-
             page_businesses = []
-
-            # Primary parser
             results = soup.find_all("div", class_=re.compile("result|listing|v-card", re.I))
-            for result in results:
-                biz = parse_yellowpages_listing(result, service, city)
+            for r in results:
+                biz = parse_listing(r, service, city)
                 if biz:
                     page_businesses.append(biz)
-
-            # Fallback 1
             if not page_businesses:
                 results = soup.find_all("div", class_=re.compile("srp-listing|search-result", re.I))
-                for result in results:
-                    biz = parse_yellowpages_listing(result, service, city)
+                for r in results:
+                    biz = parse_listing(r, service, city)
                     if biz:
                         page_businesses.append(biz)
-
-            # Fallback 2: broad div scan
             if not page_businesses:
                 for div in soup.find_all("div"):
                     text = div.get_text()
@@ -574,35 +262,23 @@ def run_scrape(service, city, max_pages, proxy_mode, premium_api_url, premium_ap
                         })
                         if len(page_businesses) >= 20:
                             break
-
             businesses.extend(page_businesses)
-            if progress_callback:
-                progress_callback(page, max_pages, f"Page {page}/{max_pages} — found {len(page_businesses)} leads")
-
-            if proxy:
-                proxy_manager.mark_success(proxy)
-
+            log(f"✅ Page {page}: found {len(page_businesses)} leads")
             if not page_businesses and page > 1:
-                add_log("Very few results. Stopping early.", "warning")
+                log("⚠️ Very few results. Stopping early.")
                 break
-
         except Exception as e:
-            add_log(f"Error on page {page}: {e}", "error")
-            if proxy:
-                proxy_manager.mark_failure(proxy)
+            log(f"❌ Error on page {page}: {e}")
             continue
 
-    # Email enrichment pass
-    add_log(f"Enriching {len(businesses)} leads with emails...", "info")
+    # Email enrichment
+    log(f"🔍 Enriching {len(businesses)} leads with emails...")
     for i, biz in enumerate(businesses):
-        if not st.session_state.scrape_running:
-            break
         website = biz.get("Website URL", "")
         if website and website.startswith("http"):
-            biz["Email Address"] = extract_email_from_url(website, session, headers, proxy_manager)
-        if (i + 1) % 10 == 0:
-            if progress_callback:
-                progress_callback(max_pages, max_pages, f"Enriching emails... {i+1}/{len(businesses)}")
+            biz["Email Address"] = extract_email_from_url(website, session, use_premium=use_premium)
+        if (i + 1) % 10 == 0 and progress_callback:
+            progress_callback(max_pages, max_pages, f"Enriching emails... {i+1}/{len(businesses)}")
 
     # Deduplicate
     seen = set()
@@ -613,82 +289,14 @@ def run_scrape(service, city, max_pages, proxy_mode, premium_api_url, premium_ap
             seen.add(key)
             unique.append(biz)
 
-    st.session_state.businesses = unique
-    st.session_state.scrape_done = True
-    st.session_state.scrape_running = False
-
-    # Build CSV in memory
-    if unique:
-        df = pd.DataFrame(unique)
-        column_order = ["Business Name", "Phone Number", "Website URL", "Email Address",
-                        "Service Type", "City Searched", "Address", "Date Scraped"]
-        cols = [c for c in column_order if c in df.columns]
-        df = df[cols]
-        df = df.drop_duplicates(subset=["Business Name", "Phone Number"]).reset_index(drop=True)
-        csv_buf = io.StringIO()
-        df.to_csv(csv_buf, index=False, encoding="utf-8-sig")
-        st.session_state.csv_bytes = csv_buf.getvalue().encode("utf-8-sig")
-        st.session_state.csv_filename = f"leads_{service}_{city}_{datetime.now().strftime('%Y%m%d_%H%M')}.csv"
-
-    add_log(f"Scrape complete! {len(unique)} leads found.", "success")
-    if progress_callback:
-        progress_callback(max_pages, max_pages, "Done!")
+    log(f"🎉 Scrape complete! {len(unique)} unique leads found.")
+    return unique, log_lines
 
 
 # ---------------------------------------------------------------------------
-# Streamlit UI
+# Streamlit UI — clean, modern, no sidebar
 # ---------------------------------------------------------------------------
-def render_sidebar():
-    with st.sidebar:
-        st.header("⚙️ Settings")
-
-        st.subheader("Proxy / Anti-Blocking")
-        proxy_mode = st.selectbox(
-            "Proxy Mode",
-            ["Direct", "Free Proxies", "Premium API"],
-            index=0,
-            help="Choose how requests are routed to avoid IP blocks.",
-        )
-
-        premium_api_url = ""
-        premium_api_key = ""
-        if proxy_mode == "Premium API":
-            st.info(
-                "Enter your premium scraping API endpoint.\n\n"
-                "Examples:\n"
-                "- ScraperAPI: `http://api.scraperapi.com?api_key=YOUR_KEY&autoparse=true&url=`\n"
-                "- ScrapingBee: `https://app.scrapingbee.com/api/v1?api_key=YOUR_KEY&url=`"
-            )
-            premium_api_url = st.text_input(
-                "Premium API Base URL",
-                placeholder="http://api.scraperapi.com?api_key=...",
-            )
-            premium_api_key = st.text_input(
-                "API Key (optional, if not in URL)",
-                type="password",
-            )
-
-        st.subheader("Scrape Limits")
-        max_pages = st.slider("Pages to scrape", 1, 10, 5)
-        min_delay = st.slider("Min delay (sec)", 1, 5, 2)
-        max_delay = st.slider("Max delay (sec)", 2, 10, 5)
-
-        st.subheader("About")
-        st.markdown(
-            """
-            **Home Services Lead Scraper PRO**
-
-            Scrapes Yellow Pages for local home service business leads.
-
-            Built with Streamlit + BeautifulSoup.
-            """
-        )
-
-    return proxy_mode, premium_api_url, premium_api_key, max_pages, min_delay, max_delay
-
-
-def render_main(proxy_mode, premium_api_url, premium_api_key, max_pages, min_delay, max_delay):
-    # Banner
+def main():
     st.markdown(
         """
     <div class="main-header">
@@ -698,194 +306,105 @@ def render_main(proxy_mode, premium_api_url, premium_api_key, max_pages, min_del
             <span class="badge">⚡ Anti-Blocking</span>
             <span class="badge">📊 CSV Export</span>
             <span class="badge">🎯 Targeted Leads</span>
-            <span class="badge">🌐 Cloud-Ready</span>
         </div>
     </div>
     """,
         unsafe_allow_html=True,
     )
 
-    # Main input card
     st.markdown('<div class="card">', unsafe_allow_html=True)
     st.markdown("### 🎯 Define Your Target")
+
     col1, col2 = st.columns(2)
     with col1:
-        service = st.text_input(
-            "Service Type",
-            placeholder="e.g., roofer, plumber, electrician, HVAC",
-            label_visibility="visible",
-        )
+        service = st.text_input("Service Type", placeholder="e.g., roofer, plumber, electrician, HVAC")
     with col2:
-        city = st.text_input(
-            "City / Area",
-            placeholder="e.g., Dallas TX, London UK, Chicago IL",
-            label_visibility="visible",
-        )
+        city = st.text_input("City / Area", placeholder="e.g., Dallas TX, London UK, Chicago IL")
 
-    col_btn1, col_btn2, col_btn3 = st.columns([1, 1, 3])
-    with col_btn1:
-        start_btn = st.button(
-            "🚀 Generate Leads",
-            type="primary",
-            use_container_width=True,
-            disabled=st.session_state.scrape_running,
-        )
-    with col_btn2:
-        stop_btn = st.button(
-            "⏹️ Stop",
-            type="secondary",
-            use_container_width=True,
-            disabled=not st.session_state.scrape_running,
-        )
+    st.markdown("### ⚙️ Scrape Mode")
+    scrape_mode = st.radio(
+        "Choose your connection method:",
+        options=["Turbo Mode (High-Success Premium API)", "Standard Mode (Free Direct Connection)"],
+        index=0,
+        horizontal=True,
+        label_visibility="collapsed",
+    )
+    use_premium = scrape_mode.startswith("Turbo")
+
+    if use_premium:
+        st.info("⚡ Turbo Mode: All requests routed through premium proxy for maximum success rate. Recommended for best results.")
+    else:
+        st.warning("🚀 Standard Mode: Direct connection. May encounter blocks on some pages. Use Turbo Mode if results fail.")
+
+    generate_btn = st.button("🚀 Generate Leads", type="primary", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
-    # Handle start/stop
-    if start_btn:
+    if generate_btn:
         if not service.strip() or not city.strip():
             st.warning("Please enter both a Service Type and a City.")
-        else:
-            st.session_state.scrape_running = True
-            st.session_state.scrape_done = False
-            st.session_state.businesses = []
-            st.session_state.csv_bytes = None
-            st.session_state.logs = []
-            st.session_state.progress = 0.0
-            st.session_state.status_text = "Starting..."
+            st.stop()
 
-            # Persist runtime params into session so thread can read them
-            st.session_state.proxy_mode = proxy_mode
-            st.session_state.premium_api_url = premium_api_url
-            st.session_state.premium_api_key = premium_api_key
-            st.session_state.max_pages = max_pages
-            st.session_state.min_delay = min_delay
-            st.session_state.max_delay = max_delay
+        progress_bar = st.progress(0.0, text="Starting...")
+        status_placeholder = st.empty()
+        log_placeholder = st.empty()
 
-            thread = threading.Thread(
-                target=_scrape_thread_target,
-                args=(service.strip(), city.strip()),
-                daemon=True,
-            )
-            thread.start()
-            st.rerun()
+        def progress_callback(current, total, message):
+            progress_bar.progress(current / total if total else 0, text=message)
+            status_placeholder.info(message)
 
-    if stop_btn:
-        st.session_state.scrape_running = False
-        add_log("Stop requested by user.", "warning")
-        st.rerun()
+        with st.spinner("Scraping in progress... Please wait 1-2 minutes while we gather your leads."):
+            try:
+                results, logs = scrape(service.strip(), city.strip(), max_pages=5, progress_callback=progress_callback, use_premium=use_premium)
+            except Exception as e:
+                st.error(f"Fatal error: {e}")
+                st.stop()
 
-    # Status + Progress
-    if st.session_state.scrape_running or st.session_state.scrape_done:
-        st.markdown('<div class="card">', unsafe_allow_html=True)
-        st.markdown("### 📊 Live Status")
-
-        # Progress bar
-        progress = st.progress(
-            st.session_state.progress,
-            text=st.session_state.status_text,
-        )
-
-        # Stats
-        if st.session_state.businesses:
-            biz = st.session_state.businesses
-            with_phone = sum(1 for b in biz if b.get("Phone Number"))
-            with_email = sum(1 for b in biz if b.get("Email Address"))
-            with_website = sum(1 for b in biz if b.get("Website URL"))
-
-            st.markdown('<div class="stat-grid">', unsafe_allow_html=True)
-            st.markdown(
-                f'<div class="stat-box"><div class="value">{len(biz)}</div><div class="label">Total Leads</div></div>',
-                unsafe_allow_html=True,
-            )
-            st.markdown(
-                f'<div class="stat-box"><div class="value">{with_phone}</div><div class="label">With Phone</div></div>',
-                unsafe_allow_html=True,
-            )
-            st.markdown(
-                f'<div class="stat-box"><div class="value">{with_email}</div><div class="label">With Email</div></div>',
-                unsafe_allow_html=True,
-            )
-            st.markdown(
-                f'<div class="stat-box"><div class="value">{with_website}</div><div class="label">With Website</div></div>',
-                unsafe_allow_html=True,
-            )
-            st.markdown("</div>", unsafe_allow_html=True)
-
-        # Logs
-        st.markdown("#### 📋 Activity Log")
         log_html = '<div class="log-box">'
-        for entry in st.session_state.logs[-30:]:
+        for entry in logs:
             level = "log-info"
-            if "error" in entry.lower():
+            if "❌" in entry or "error" in entry.lower():
                 level = "log-error"
-            elif "warning" in entry.lower():
+            elif "⚠️" in entry or "warning" in entry.lower():
                 level = "log-warning"
-            elif "success" in entry.lower() or "complete" in entry.lower():
+            elif "🎉" in entry or "complete" in entry.lower():
                 level = "log-success"
             log_html += f'<span class="{level}">{entry}</span>\n'
         log_html += "</div>"
-        st.markdown(log_html, unsafe_allow_html=True)
+        log_placeholder.markdown(log_html, unsafe_allow_html=True)
 
-        st.markdown("</div>", unsafe_allow_html=True)
+        if not results:
+            st.warning("No results found. Try a different service type, switch Scrape Mode, or try again in a few minutes.")
+            st.stop()
 
-    # Results + Download
-    if st.session_state.scrape_done and st.session_state.csv_bytes:
+        with_phone = sum(1 for b in results if b.get("Phone Number"))
+        with_email = sum(1 for b in results if b.get("Email Address"))
+        with_website = sum(1 for b in results if b.get("Website URL"))
         st.markdown('<div class="card">', unsafe_allow_html=True)
-        st.markdown("### 📥 Download Your Leads")
-        st.success(
-            f"✅ Scrape complete! Found {len(st.session_state.businesses)} unique leads."
-        )
-        st.download_button(
-            label="📥 Download CSV File",
-            data=st.session_state.csv_bytes,
-            file_name=st.session_state.csv_filename,
-            mime="text/csv",
-            use_container_width=True,
-        )
+        st.markdown("### 📊 Results")
+        st.markdown('<div class="stat-grid">', unsafe_allow_html=True)
+        st.markdown(f'<div class="stat-box"><div class="value">{len(results)}</div><div class="label">Total Leads</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="stat-box"><div class="value">{with_phone}</div><div class="label">With Phone</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="stat-box"><div class="value">{with_email}</div><div class="label">With Email</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="stat-box"><div class="value">{with_website}</div><div class="label">With Website</div></div>', unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # Data preview
+        df = pd.DataFrame(results)
+        column_order = ["Business Name", "Phone Number", "Website URL", "Email Address", "Service Type", "City Searched", "Address", "Date Scraped"]
+        cols = [c for c in column_order if c in df.columns]
+        df = df[cols].drop_duplicates(subset=["Business Name", "Phone Number"]).reset_index(drop=True)
+        csv_buf = io.StringIO()
+        df.to_csv(csv_buf, index=False, encoding="utf-8-sig")
+        csv_bytes = csv_buf.getvalue().encode("utf-8-sig")
+        filename = f"leads_{service}_{city}_{datetime.now().strftime('%Y%m%d_%H%M')}.csv"
+
+        st.success("✅ Scrape complete! Download your CSV below.")
+        st.download_button(label="📥 Download CSV File", data=csv_bytes, file_name=filename, mime="text/csv", use_container_width=True)
+
         with st.expander("👁️ Preview first 20 leads"):
-            df = pd.read_csv(io.StringIO(st.session_state.csv_bytes.decode("utf-8-sig")))
             st.dataframe(df.head(20), use_container_width=True, hide_index=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
-
-# ---------------------------------------------------------------------------
-# Thread target wrapper (reads runtime params from session state)
-# ---------------------------------------------------------------------------
-def _scrape_thread_target(service, city):
-    run_scrape(
-        service=service,
-        city=city,
-        max_pages=st.session_state.get("max_pages", 5),
-        proxy_mode=st.session_state.get("proxy_mode", "Direct"),
-        premium_api_url=st.session_state.get("premium_api_url", ""),
-        premium_api_key=st.session_state.get("premium_api_key", ""),
-        progress_callback=_progress_callback,
-    )
-
-
-def _progress_callback(current, total, message):
-    st.session_state.progress = current / total if total > 0 else 0
-    st.session_state.status_text = message
-    add_log(message, "info")
-
-
-# ---------------------------------------------------------------------------
-# Entry point
-# ---------------------------------------------------------------------------
-def main():
-    proxy_mode, premium_api_url, premium_api_key, max_pages, min_delay, max_delay = render_sidebar()
-    render_main(proxy_mode, premium_api_url, premium_api_key, max_pages, min_delay, max_delay)
-
-    # Footer
-    st.markdown(
-        """
-    <footer>
-        Home Services Lead Scraper PRO · Your Unfair Advantage in Client Acquisition
-    </footer>
-    """,
-        unsafe_allow_html=True,
-    )
+    st.markdown("<footer>Home Services Lead Scraper PRO · Your Unfair Advantage in Client Acquisition</footer>", unsafe_allow_html=True)
 
 
 if __name__ == "__main__":

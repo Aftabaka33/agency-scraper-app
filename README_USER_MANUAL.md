@@ -18,7 +18,7 @@
 
 ## What Is This Tool?
 
-**Home Services Lead Scraper Pro** is a simple Python script that automatically finds local home service businesses (like roofers, plumbers, electricians) in ANY city you choose and gives you their:
+**Home Services Lead Scraper Pro** is a simple Python tool that automatically finds local home service businesses (like roofers, plumbers, electricians) in ANY city you choose and gives you their:
 
 - ✅ Business Name
 - ✅ Phone Number
@@ -34,20 +34,21 @@ All in a clean, organized **CSV file** (opens in Excel or Google Sheets).
 
 ## What You'll Get
 
-After running the script, you'll have:
+After installing, you'll have:
 
 | File | Description |
 |------|-------------|
-| `agency_scraper.py` | The main script (you don't edit this) |
+| `app.py` | The modern web app (Streamlit) with dual-mode scraping |
+| `agency_scraper.py` | The original command-line script for power users |
 | `requirements.txt` | List of required software libraries |
 | `README_USER_MANUAL.md` | This file |
 | `GUMROAD_LISTING.txt` | Product info |
 | `LICENSE.txt` | License terms |
 
-**Output file created when you run the script:**
+**Output file created when you run the scraper:**
 | File | Description |
 |------|-------------|
-| `agency_leads.csv` | YOUR RESULTS — the leads you scraped |
+| `agency_leads.csv` | YOUR RESULTS — the leads you scraped (web app) |
 
 ---
 
@@ -56,8 +57,8 @@ After running the script, you'll have:
 ### What You Need on Your Computer
 
 1. **Python 3.8 or newer** — A free programming language that runs the script
-2. **Internet connection** — The script needs to search Yellow Pages
-3. **Windows, Mac, or Mac M1/M2** — Works on all major operating systems
+2. **Internet connection** — The tool needs to search Yellow Pages
+3. **Windows, Mac, or Chromebook** — Works on all major operating systems
 
 ### Do You Already Have Python?
 
@@ -105,7 +106,7 @@ You should see a version number like `Python 3.10.5`. If you do — **you're rea
 
 ### STEP 2: Install the Required Packages
 
-The script needs some extra tools (called "libraries") to work. Here's how to install them:
+The tool needs some extra tools (called "libraries") to work. Here's how to install them:
 
 1. **Open Command Prompt (Windows) or Terminal (Mac):**
    - Windows: Press `Win + R`, type `cmd`, press Enter
@@ -166,6 +167,78 @@ deactivate
 ---
 
 ## How to Run the Scraper
+
+This product includes **TWO** ways to run the scraper:
+
+- **Option A: Web App (Recommended)** — A modern, browser-based interface with dual-mode scraping
+- **Option B: Command Line** — The original terminal-based script for advanced users
+
+---
+
+### Option A: Web App (Streamlit) — RECOMMENDED
+
+The web app gives you a clean, modern interface directly in your browser. No need to type commands — just click and go.
+
+#### Running the Web App Locally
+
+1. **Make sure you're in the right folder** in your Command Prompt/Terminal:
+   ```
+   cd Desktop\Agency_Lead_Scraper_Tool
+   ```
+
+2. **Launch the app:**
+   ```
+   streamlit run app.py
+   ```
+
+3. **Your browser will open automatically** showing the Home Services Lead Scraper PRO interface.
+
+4. **Enter your target:**
+   - Service Type: e.g., "roofer", "plumber", "electrician"
+   - City / Area: e.g., "Dallas TX", "London UK", "Chicago IL"
+
+5. **Choose your Scrape Mode:**
+   - **Turbo Mode (Premium API)** — Routes requests through a premium proxy. Best for cloud hosting or if you're getting blocked. Requires a premium API key (ScraperAPI, ScrapingBee, etc.).
+   - **Standard Mode (Free Direct)** — Direct connection to Yellow Pages. Great for local use on your own machine. No API key needed.
+
+6. **Click "Generate Leads"** and watch the magic happen.
+
+7. **Download your CSV** when the scrape finishes.
+
+---
+
+#### Deploying to the Cloud (Free Hosting)
+
+Want to access your scraper from anywhere, even on your phone? Deploy it for free on Streamlit Cloud:
+
+1. **Get a premium scraping API key** (needed for cloud use):
+   - Sign up at [ScraperAPI.com](https://www.scraperapi.com) or [ScrapingBee.com](https://www.scrapingbee.com)
+   - Copy your API key
+
+2. **Push the code to GitHub:**
+   ```
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git remote add origin https://github.com/your-username/your-repo.git
+   git push -u origin main
+   ```
+
+3. **Deploy on Streamlit Cloud:**
+   - Go to [share.streamlit.io](https://share.streamlit.io)
+   - Sign in with your GitHub account
+   - Select your repository and the `app.py` file
+   - Click "Deploy"
+
+4. **Add your API key:**
+   - In the Streamlit Cloud dashboard, go to Settings → Secrets
+   - Add your API key (you'll need to update `app.py` to read from `st.secrets` instead of the hardcoded URL — contact support if you need help)
+
+---
+
+### Option B: Command Line (Original Script)
+
+If you prefer the terminal or want more control:
 
 1. **Make sure you're in the right folder** in your Command Prompt/Terminal:
    ```
@@ -257,25 +330,35 @@ Import the CSV into:
 
 **Solution:** The required libraries aren't installed.
 ```
-pip install requests beautifulsoup4 pandas fake-useragent rich tqdm
+pip install requests beautifulsoup4 pandas fake-useragent streamlit rich tqdm
 ```
 (Mac: replace `pip` with `pip3`)
 
 ---
 
-### Problem: "0 leads found" or the script finishes too quickly
+### Problem: "streamlit" command not found
+
+**Solution:** Streamlit wasn't installed.
+```
+pip install streamlit
+```
+
+---
+
+### Problem: "0 leads found" or the scraper finishes too quickly
 
 **Solution:** Yellow Pages may be blocking automated requests.
 1. **Wait 5-10 minutes** and try again
 2. Try a **different city** or **different service type**
 3. Make sure your **internet connection is stable**
 4. Some sites block scrapers — this is normal, just try again later
+5. If using Standard Mode, try switching to Turbo Mode
 
 ---
 
-### Problem: The script is very slow
+### Problem: The scraper is very slow
 
-**Solution:** The script intentionally waits between requests (2-5 seconds) to avoid being blocked. This is GOOD — it means you won't get banned.
+**Solution:** The tool intentionally waits between requests (2-5 seconds) to avoid being blocked. This is GOOD — it means you won't get banned.
 - To speed it up: Edit `agency_scraper.py` and change `MIN_DELAY = 2` to `MIN_DELAY = 1` and `MAX_DELAY = 5` to `MAX_DELAY = 3`
 - **Warning:** Going too fast may get you blocked
 
@@ -336,7 +419,7 @@ pip install --user -r requirements.txt
 - If you get blocked, wait 15-30 minutes before trying again
 
 ### Scaling Up
-- Run the script for 5-10 different service types in your target city
+- Run the scraper for 5-10 different service types in your target city
 - Target 3-5 cities to build a regional lead database
 - Combine results into one master CSV using Excel's Power Query or Google Sheets IMPORTRANGE
 
@@ -347,8 +430,10 @@ pip install --user -r requirements.txt
 If you have a developer or tech-savvy friend, here's the technical stack:
 
 - **Language:** Python 3.8+
-- **Libraries:** requests, beautifulsoup4, pandas, fake-useragent, rich, tqdm
+- **Web Framework:** Streamlit
+- **Libraries:** requests, beautifulsoup4, pandas, fake-useragent, streamlit, rich, tqdm
 - **Scraping Engine:** BeautifulSoup + requests targeting Yellow Pages static HTML
+- **Dual-Mode Engine:** Direct connection OR premium proxy API (ScraperAPI/ScrapingBee compatible)
 - **Anti-Blocking:** Rotating User-Agents, random delays, session management
 - **Data Export:** Pandas DataFrame → UTF-8 CSV with BOM
 
@@ -363,10 +448,10 @@ If you run into issues not covered here:
 3. Try the commands in a fresh Command Prompt window
 4. Copy-paste the exact error message into Google — there's almost always a solution
 
-**The script is designed to be beginner-friendly. If it's not working, the problem is almost always:**
+**The tool is designed to be beginner-friendly. If it's not working, the problem is almost always:**
 - Python not installed correctly
 - Libraries not installed (`pip install -r requirements.txt`)
-- Wrong folder (make sure you're in the same folder as `agency_scraper.py`)
+- Wrong folder (make sure you're in the same folder as `app.py` or `agency_scraper.py`)
 
 ---
 
