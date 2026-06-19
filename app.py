@@ -38,327 +38,56 @@ st.markdown(
     """
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
     * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
-
     :root {
-        --primary: #0a2540;
-        --primary-light: #1a3a5c;
-        --accent: #00b4d8;
-        --accent-hover: #0096c7;
-        --success: #06d6a0;
-        --warning: #ff9f1c;
-        --danger: #ef476f;
-        --bg: #f0f2f5;
-        --card: #ffffff;
-        --text: #1a1a2e;
-        --text-secondary: #6b7280;
-        --border: #e5e7eb;
+        --primary: #0a2540; --primary-light: #1a3a5c; --accent: #00b4d8; --accent-hover: #0096c7;
+        --success: #06d6a0; --warning: #ff9f1c; --danger: #ef476f;
+        --bg: #f0f2f5; --card: #ffffff; --text: #1a1a2e; --text-secondary: #6b7280; --border: #e5e7eb;
         --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-        --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
-        --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
-        --radius: 16px;
-        --radius-sm: 10px;
+        --shadow-md: 0 4px 20px rgba(0,0,0,0.08); --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+        --radius: 16px; --radius-sm: 10px;
     }
-
     body { background: var(--bg); color: var(--text); }
-
-    /* Header */
-    .main-header {
-        text-align: center;
-        padding: 2.5rem 2rem 2rem;
-        background: linear-gradient(135deg, #0a2540 0%, #1a3a5c 40%, #00b4d8 100%);
-        color: white;
-        border-radius: var(--radius);
-        margin-bottom: 2rem;
-        box-shadow: var(--shadow-lg);
-        position: relative;
-        overflow: hidden;
-    }
-    .main-header::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        right: -20%;
-        width: 300px;
-        height: 300px;
-        background: rgba(255,255,255,0.03);
-        border-radius: 50%;
-    }
-    .main-header::after {
-        content: '';
-        position: absolute;
-        bottom: -30%;
-        left: -10%;
-        width: 200px;
-        height: 200px;
-        background: rgba(255,255,255,0.02);
-        border-radius: 50%;
-    }
-    .main-header h1 {
-        font-size: 2.2rem;
-        font-weight: 800;
-        margin: 0;
-        letter-spacing: -0.5px;
-        position: relative;
-    }
-    .main-header p {
-        font-size: 1.05rem;
-        opacity: 0.9;
-        margin-top: 0.5rem;
-        font-weight: 400;
-        position: relative;
-    }
-    .badge-row {
-        display: flex;
-        gap: 8px;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-top: 1.2rem;
-        position: relative;
-    }
-    .badge {
-        background: rgba(255,255,255,0.12);
-        backdrop-filter: blur(4px);
-        padding: 6px 16px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        letter-spacing: 0.3px;
-    }
-
-    /* Cards */
-    .card {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 1.75rem;
-        margin-bottom: 1.5rem;
-        box-shadow: var(--shadow-sm);
-        transition: box-shadow 0.2s ease;
-    }
-    .card:hover {
-        box-shadow: var(--shadow-md);
-    }
-    .card h3 {
-        margin: 0 0 1rem;
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: var(--primary);
-    }
-
-    /* Stats grid */
-    .stat-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 1rem;
-        margin-top: 1rem;
-    }
-    .stat-box {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        padding: 1.2rem 1rem;
-        text-align: center;
-        transition: transform 0.15s ease, box-shadow 0.2s ease;
-    }
-    .stat-box:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
-    }
-    .stat-box .value {
-        font-size: 2rem;
-        font-weight: 800;
-        color: var(--accent);
-        line-height: 1.2;
-    }
-    .stat-box .label {
-        font-size: 0.78rem;
-        color: var(--text-secondary);
-        margin-top: 0.3rem;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    /* Buttons */
-    .stButton>button {
-        border-radius: var(--radius-sm) !important;
-        font-weight: 600 !important;
-        font-size: 1rem !important;
-        padding: 0.65rem 1.5rem !important;
-        transition: all 0.2s ease !important;
-        box-shadow: var(--shadow-sm) !important;
-    }
-    .stButton>button[kind="primary"] {
-        background: linear-gradient(135deg, var(--accent), var(--accent-hover)) !important;
-        color: white !important;
-        border: none !important;
-    }
-    .stButton>button[kind="primary"]:hover {
-        transform: translateY(-1px) !important;
-        box-shadow: 0 4px 15px rgba(0, 180, 216, 0.35) !important;
-    }
-    .stButton>button[kind="secondary"] {
-        background: #f3f4f6 !important;
-        color: var(--text) !important;
-        border: 1px solid var(--border) !important;
-    }
-    .stButton>button[kind="secondary"]:hover {
-        background: #e5e7eb !important;
-    }
-
-    /* Download button */
-    .stDownloadButton>button {
-        background: linear-gradient(135deg, var(--success), #05b588) !important;
-        color: white !important;
-        border: none !important;
-        border-radius: var(--radius-sm) !important;
-        padding: 0.75rem 2rem !important;
-        font-size: 1.05rem !important;
-        font-weight: 700 !important;
-        width: 100% !important;
-        transition: all 0.2s ease !important;
-        box-shadow: 0 4px 15px rgba(6, 214, 160, 0.25) !important;
-    }
-    .stDownloadButton>button:hover {
-        transform: translateY(-1px) !important;
-        box-shadow: 0 6px 20px rgba(6, 214, 160, 0.35) !important;
-    }
-
-    /* Log box */
-    .log-box {
-        background: #0d1117;
-        color: #e6edf3;
-        font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
-        font-size: 0.8rem;
-        padding: 1rem 1.2rem;
-        border-radius: var(--radius-sm);
-        max-height: 350px;
-        overflow-y: auto;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-        line-height: 1.6;
-        border: 1px solid #30363d;
-    }
-    .log-info { color: #58a6ff; }
-    .log-success { color: #3fb950; }
-    .log-warning { color: #d29922; }
-    .log-error { color: #f85149; }
-
-    /* Inputs */
-    .stTextInput>div>div>input {
-        border-radius: var(--radius-sm) !important;
-        border: 1px solid var(--border) !important;
-        padding: 0.6rem 0.9rem !important;
-        font-size: 0.95rem !important;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
-    }
-    .stTextInput>div>div>input:focus {
-        border-color: var(--accent) !important;
-        box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15) !important;
-    }
-    .stTextInput>div>div>input::placeholder {
-        color: #9ca3af;
-    }
-
-    /* Radio buttons */
-    .stRadio>div {
-        gap: 0.5rem;
-    }
-    .stRadio label {
-        background: #f3f4f6;
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        padding: 0.6rem 1.2rem;
-        font-weight: 500;
-        font-size: 0.9rem;
-        transition: all 0.2s ease;
-        cursor: pointer;
-    }
-    .stRadio label:hover {
-        border-color: var(--accent);
-        background: rgba(0, 180, 216, 0.05);
-    }
-    .stRadio [data-testid="stRadio"] div[data-testid="stMarkdownContainer"] label {
-        background: #f3f4f6;
-    }
-
-    /* Expanders */
-    .streamlit-expanderHeader {
-        font-weight: 600 !important;
-        font-size: 0.95rem !important;
-        color: var(--primary) !important;
-        background: #f9fafb !important;
-        border-radius: var(--radius-sm) !important;
-        padding: 0.6rem 1rem !important;
-        border: 1px solid var(--border) !important;
-    }
-    .streamlit-expanderHeader:hover {
-        background: #f3f4f6 !important;
-    }
-
-    /* Progress bar */
-    .stProgress > div > div > div {
-        background: linear-gradient(90deg, var(--accent), var(--success)) !important;
-        border-radius: 10px !important;
-    }
-
-    /* Footer */
-    footer {
-        text-align: center;
-        padding: 2rem 1rem;
-        color: var(--text-secondary);
-        font-size: 0.82rem;
-        font-weight: 400;
-    }
-
-    /* Spinner */
-    .stSpinner > div {
-        border-color: var(--accent) !important;
-    }
-
-    /* Info / Success / Warning boxes */
-    .stAlert {
-        border-radius: var(--radius-sm) !important;
-        font-size: 0.9rem !important;
-    }
-    .stInfo {
-        background: rgba(0, 180, 216, 0.08) !important;
-        border: 1px solid rgba(0, 180, 216, 0.2) !important;
-    }
-    .stWarning {
-        background: rgba(255, 159, 28, 0.08) !important;
-        border: 1px solid rgba(255, 159, 28, 0.2) !important;
-    }
-    .stError {
-        background: rgba(239, 71, 111, 0.08) !important;
-        border: 1px solid rgba(239, 71, 111, 0.2) !important;
-    }
-    .stSuccess {
-        background: rgba(6, 214, 160, 0.08) !important;
-        border: 1px solid rgba(6, 214, 160, 0.2) !important;
-    }
-
-    /* Niche badges */
-    .niche-badge {
-        background: #eef2ff;
-        color: #4f46e5;
-        padding: 5px 10px;
-        border-radius: 12px;
-        text-align: center;
-        font-size: 0.82rem;
-        font-weight: 500;
-        margin: 3px 0;
-        display: inline-block;
-        width: 100%;
-        box-sizing: border-box;
-        transition: all 0.15s ease;
-    }
-    .niche-badge:hover {
-        background: #e0e7ff;
-        transform: translateY(-1px);
-    }
+    .main-header { text-align: center; padding: 2.5rem 2rem 2rem; background: linear-gradient(135deg, #0a2540 0%, #1a3a5c 40%, #00b4d8 100%); color: white; border-radius: var(--radius); margin-bottom: 2rem; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; }
+    .main-header::before { content: ''; position: absolute; top: -50%; right: -20%; width: 300px; height: 300px; background: rgba(255,255,255,0.03); border-radius: 50%; }
+    .main-header::after { content: ''; position: absolute; bottom: -30%; left: -10%; width: 200px; height: 200px; background: rgba(255,255,255,0.02); border-radius: 50%; }
+    .main-header h1 { font-size: 2.2rem; font-weight: 800; margin: 0; letter-spacing: -0.5px; position: relative; }
+    .main-header p { font-size: 1.05rem; opacity: 0.9; margin-top: 0.5rem; font-weight: 400; position: relative; }
+    .badge-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 1.2rem; position: relative; }
+    .badge { background: rgba(255,255,255,0.12); backdrop-filter: blur(4px); padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.3px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-sm); transition: box-shadow 0.2s ease; }
+    .card:hover { box-shadow: var(--shadow-md); }
+    .card h3 { margin: 0 0 1rem; font-size: 1.1rem; font-weight: 700; color: var(--primary); }
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .stat-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.2rem 1rem; text-align: center; transition: transform 0.15s ease, box-shadow 0.2s ease; }
+    .stat-box:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .stat-box .value { font-size: 2rem; font-weight: 800; color: var(--accent); line-height: 1.2; }
+    .stat-box .label { font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.3rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stButton>button { border-radius: var(--radius-sm) !important; font-weight: 600 !important; font-size: 1rem !important; padding: 0.65rem 1.5rem !important; transition: all 0.2s ease !important; box-shadow: var(--shadow-sm) !important; }
+    .stButton>button[kind="primary"] { background: linear-gradient(135deg, var(--accent), var(--accent-hover)) !important; color: white !important; border: none !important; }
+    .stButton>button[kind="primary"]:hover { transform: translateY(-1px) !important; box-shadow: 0 4px 15px rgba(0, 180, 216, 0.35) !important; }
+    .stButton>button[kind="secondary"] { background: #f3f4f6 !important; color: var(--text) !important; border: 1px solid var(--border) !important; }
+    .stButton>button[kind="secondary"]:hover { background: #e5e7eb !important; }
+    .stDownloadButton>button { background: linear-gradient(135deg, var(--success), #05b588) !important; color: white !important; border: none !important; border-radius: var(--radius-sm) !important; padding: 0.75rem 2rem !important; font-size: 1.05rem !important; font-weight: 700 !important; width: 100% !important; transition: all 0.2s ease !important; box-shadow: 0 4px 15px rgba(6, 214, 160, 0.25) !important; }
+    .stDownloadButton>button:hover { transform: translateY(-1px) !important; box-shadow: 0 6px 20px rgba(6, 214, 160, 0.35) !important; }
+    .log-box { background: #0d1117; color: #e6edf3; font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace; font-size: 0.8rem; padding: 1rem 1.2rem; border-radius: var(--radius-sm); max-height: 350px; overflow-y: auto; white-space: pre-wrap; word-wrap: break-word; line-height: 1.6; border: 1px solid #30363d; }
+    .log-info { color: #58a6ff; } .log-success { color: #3fb950; } .log-warning { color: #d29922; } .log-error { color: #f85149; }
+    .stTextInput>div>div>input { border-radius: var(--radius-sm) !important; border: 1px solid var(--border) !important; padding: 0.6rem 0.9rem !important; font-size: 0.95rem !important; transition: border-color 0.2s ease, box-shadow 0.2s ease !important; }
+    .stTextInput>div>div>input:focus { border-color: var(--accent) !important; box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15) !important; }
+    .stTextInput>div>div>input::placeholder { color: #9ca3af; }
+    .stRadio>div { gap: 0.5rem; }
+    .stRadio label { background: #f3f4f6; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.6rem 1.2rem; font-weight: 500; font-size: 0.9rem; transition: all 0.2s ease; cursor: pointer; }
+    .stRadio label:hover { border-color: var(--accent); background: rgba(0, 180, 216, 0.05); }
+    .streamlit-expanderHeader { font-weight: 600 !important; font-size: 0.95rem !important; color: var(--primary) !important; background: #f9fafb !important; border-radius: var(--radius-sm) !important; padding: 0.6rem 1rem !important; border: 1px solid var(--border) !important; }
+    .streamlit-expanderHeader:hover { background: #f3f4f6 !important; }
+    .stProgress > div > div > div { background: linear-gradient(90deg, var(--accent), var(--success)) !important; border-radius: 10px !important; }
+    footer { text-align: center; padding: 2rem 1rem; color: var(--text-secondary); font-size: 0.82rem; font-weight: 400; }
+    .stSpinner > div { border-color: var(--accent) !important; }
+    .stAlert { border-radius: var(--radius-sm) !important; font-size: 0.9rem !important; }
+    .stInfo { background: rgba(0, 180, 216, 0.08) !important; border: 1px solid rgba(0, 180, 216, 0.2) !important; }
+    .stWarning { background: rgba(255, 159, 28, 0.08) !important; border: 1px solid rgba(255, 159, 28, 0.2) !important; }
+    .stError { background: rgba(239, 71, 111, 0.08) !important; border: 1px solid rgba(239, 71, 111, 0.2) !important; }
+    .stSuccess { background: rgba(6, 214, 160, 0.08) !important; border: 1px solid rgba(6, 214, 160, 0.2) !important; }
 </style>
 """,
     unsafe_allow_html=True,
@@ -438,13 +167,9 @@ def extract_email_from_url(url, session, use_premium=False, api_key=None):
 def get_target_directory(city_input):
     city_lower = city_input.strip().lower()
     uk_markers = ["uk", "london", "england", "manchester", "birmingham", "scotland", "wales"]
-    eu_markers = ["europe", "dublin", "berlin", "paris", "amsterdam", "madrid", "rome", "vienna", "zurich", "brussels", "lisbon", "stockholm", "oslo", "copenhagen", "helsinki", "warsaw", "prague", "budapest", "dublin ie", "berlin de", "paris fr", "madrid es", "rome it", "vienna at", "zurich ch", "brussels be", "lisbon pt", "stockholm se", "oslo no", "copenhagen dk", "helsinki fi", "warsaw pl", "prague cz", "budapest hu"]
     for marker in uk_markers:
         if marker in city_lower:
             return "UK"
-    for marker in eu_markers:
-        if marker in city_lower:
-            return "EU"
     return "US"
 
 
@@ -453,8 +178,6 @@ def build_yellowpages_url(service, city, page=1, country="US"):
     encoded_city = quote_plus(city.strip())
     if country == "UK":
         return f"https://www.yell.com/ucs/UcsSearchAction.do?keywords={encoded_service}&location={encoded_city}&pageNum={page}"
-    elif country == "EU":
-        return f"https://www.europages.com/search/{encoded_service}/{encoded_city}"
     else:
         base = "https://www.yellowpages.com/search"
         if page == 1:
@@ -550,7 +273,7 @@ def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False
                 stealth_headers = {
                     "User-Agent": ua.random,
                     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-                    "Accept-Language": "en-US,en;q=0.5",
+                    "Accept-Language": "en-US;en;q=0.5",
                     "Connection": "keep-alive",
                     "Upgrade-Insecure-Requests": "1",
                 }
@@ -629,17 +352,23 @@ def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False
 
 
 def main():
+    # ── Access Gate ─────────────────────────────────────────────────
+    access_code = st.text_input("🔑 Enter Access Code", type="password", key="access_code_input")
+    if access_code != "LEAD2026":
+        st.warning("Please enter a valid access code to proceed.")
+        st.stop()
+
     # ── Header ──────────────────────────────────────────────────────
     st.markdown(
         """
     <div class="main-header">
-        <h1> Home Services Lead Scraper PRO</h1>
+        <h1>🏠 Home Services Lead Scraper PRO</h1>
         <p>Generate unlimited web design & SEO client leads in minutes</p>
         <div class="badge-row">
-            <span class="badge"> Anti-Blocking Engine</span>
-            <span class="badge"> CSV Export</span>
-            <span class="badge"> Multi-Region Support</span>
-            <span class="badge"> Dual Mode</span>
+            <span class="badge">⚡ Anti-Blocking Engine</span>
+            <span class="badge">📊 CSV Export</span>
+            <span class="badge">🌍 Multi-Region Support</span>
+            <span class="badge">🔀 Dual Mode</span>
         </div>
     </div>
     """,
@@ -648,7 +377,7 @@ def main():
 
     # ── Target Input ────────────────────────────────────────────────
     st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.markdown("###  Define Your Target")
+    st.markdown("### 🎯 Define Your Target")
 
     col1, col2 = st.columns(2)
     with col1:
@@ -656,7 +385,7 @@ def main():
     with col2:
         city = st.text_input("City / Area", placeholder="e.g., Dallas TX, London UK, Chicago IL")
 
-    st.markdown("###  Scrape Mode")
+    st.markdown("### ⚙️ Scrape Mode")
     scrape_mode = st.radio(
         "Choose your connection method:",
         options=["Turbo Mode (High-Success Premium API)", "Standard Mode (Free Direct Connection)"],
@@ -674,49 +403,15 @@ def main():
 
     st.markdown("</div>", unsafe_allow_html=True)
 
-    # ── Supported Capabilities Legend ───────────────────────────────
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.markdown("###  Supported Capabilities")
-
-    SERVICE_KEYWORDS = [
-        "Roofer", "Plumber", "Electrician", "HVAC", "Painter",
-        "Landscaper", "Locksmith", "Pest Control", "Carpet Cleaner",
-        "Window Installer", "Fence Contractor", "Concrete Contractor",
-        "Masonry", "Siding Contractor", "Gutter Cleaner", "Handyman",
-        "Tree Service", "Pressure Washing", "Garage Door Repair",
-        "Swimming Pool Builder", "Kitchen Remodeler", "Bathroom Remodeler",
-        "Driveway Contractor", "Roof Cleaner", "Chimney Sweep",
-        "Foundation Repair", "Waterproofing", "Insulation Contractor",
-        "Framer", "General Contractor",
-    ]
-
-    with st.expander(" View High-Yield Supported Niches", expanded=False):
-        st.markdown("**Optimized service types that return the highest quality leads:**")
-        cols = st.columns(4)
-        for i, keyword in enumerate(SERVICE_KEYWORDS):
-            with cols[i % 4]:
-                st.markdown(f'<div class="niche-badge">{keyword}</div>', unsafe_allow_html=True)
-
-    with st.expander(" Supported Target Regions", expanded=False):
-        st.markdown("**Fully Supported Regions:**")
-        st.markdown("""
-- **United States (Standard & Turbo Mode):** Optimized for all US cities and states (e.g., Dallas TX, Miami FL).
-- **United Kingdom (Standard & Turbo Mode):** Fully supported via Yell.com integration (e.g., London UK, Manchester).
-- **Europe (Standard & Turbo Mode):** Supported via Europages integration (e.g., Paris France, Berlin Germany, Dublin Ireland).
-- **Rest of World:** For regions like Canada and Australia, you MUST use Turbo Mode with a Premium API Key to bypass regional security blocks.
-        """)
-
-    st.markdown("</div>", unsafe_allow_html=True)
-
     # ── Buttons ─────────────────────────────────────────────────────
     use_premium = "Turbo" in scrape_mode
     GLOBAL_SCRAPE_STOPS["active_run"] = False
 
     col1, col2 = st.columns([3, 1])
     with col1:
-        generate_clicked = st.button(" Generate Leads", type="primary", use_container_width=True, key="btn_gen_leads_final_v1")
+        generate_clicked = st.button("🚀 Generate Leads", type="primary", use_container_width=True, key="btn_gen_v1")
     with col2:
-        stop_clicked = st.button(" Stop", use_container_width=True, key="btn_stop_scrape_final_v1")
+        stop_clicked = st.button("🛑 Stop", use_container_width=True, key="btn_stop_v1")
 
     if stop_clicked:
         GLOBAL_SCRAPE_STOPS["active_run"] = True
@@ -735,8 +430,6 @@ def main():
         detected_country = get_target_directory(city)
         if detected_country == "UK":
             st.info("Detected UK directory. Routing to Yell.com for best results...")
-        elif detected_country == "EU":
-            st.info("Detected European directory. Routing to Europages for best results...")
 
         GLOBAL_SCRAPE_STOPS["active_run"] = False
         progress_bar = st.progress(0.0, text="Starting...")
@@ -771,7 +464,7 @@ def main():
         with_email = sum(1 for b in results if b.get("Email Address"))
         with_website = sum(1 for b in results if b.get("Website URL"))
         st.markdown('<div class="card">', unsafe_allow_html=True)
-        st.markdown("###  Results")
+        st.markdown("### 📊 Results")
         st.markdown('<div class="stat-grid">', unsafe_allow_html=True)
         st.markdown(f'<div class="stat-box"><div class="value">{len(results)}</div><div class="label">Total Leads</div></div>', unsafe_allow_html=True)
         st.markdown(f'<div class="stat-box"><div class="value">{with_phone}</div><div class="label">With Phone</div></div>', unsafe_allow_html=True)
@@ -789,9 +482,9 @@ def main():
         filename = f"leads_{service}_{city}_{datetime.now().strftime('%Y%m%d_%H%M')}.csv"
 
         st.success("Scrape complete! Download your CSV below.")
-        st.download_button(label=" Download CSV File", data=csv_bytes, file_name=filename, mime="text/csv", use_container_width=True)
+        st.download_button(label="📥 Download CSV File", data=csv_bytes, file_name=filename, mime="text/csv", use_container_width=True)
 
-        with st.expander(" Preview first 20 leads"):
+        with st.expander("👁️ Preview first 20 leads"):
             st.dataframe(df.head(20), use_container_width=True, hide_index=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
