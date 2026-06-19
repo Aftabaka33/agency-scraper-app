@@ -432,11 +432,11 @@ def main():
 
     GLOBAL_SCRAPE_STOPS["active_run"] = False
 
-    col_btn1, col_btn2 = st.columns([3, 1])
-    with col_btn1:
-        generate_clicked = st.button("🚀 Generate Leads", type="primary", use_container_width=True, key="primary_generate_button")
-    with col_btn2:
-        stop_clicked = st.button("🛑 Stop", use_container_width=True, key="primary_stop_button")
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        generate_clicked = st.button("🚀 Generate Leads", type="primary", use_container_width=True, key="btn_gen_leads_final_v1")
+    with col2:
+        stop_clicked = st.button("🛑 Stop", use_container_width=True, key="btn_stop_scrape_final_v1")
 
     if stop_clicked:
         GLOBAL_SCRAPE_STOPS["active_run"] = True
