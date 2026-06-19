@@ -339,6 +339,48 @@ def main():
     generate_btn = st.button("🚀 Generate Leads", type="primary", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
+    # ------------------------------------------------------------------
+    # Supported Capabilities Legend (closed by default to keep UI clean)
+    # ------------------------------------------------------------------
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.markdown("### 💡 Supported Capabilities")
+
+    SERVICE_KEYWORDS = [
+        "Roofer", "Plumber", "Electrician", "HVAC", "Painter",
+        "Landscaper", "Locksmith", "Pest Control", "Carpet Cleaner",
+        "Window Installer", "Fence Contractor", "Concrete Contractor",
+        "Masonry", "Siding Contractor", "Gutter Cleaner", "Handyman",
+        "Tree Service", "Pressure Washing", "Garage Door Repair",
+        "Swimming Pool Builder", "Kitchen Remodeler", "Bathroom Remodeler",
+        "Driveway Contractor", "Roof Cleaner", "Chimney Sweep",
+        "Foundation Repair", "Waterproofing", "Insulation Contractor",
+        "Framer", "General Contractor",
+    ]
+
+    with st.expander("📋 View High-Yield Supported Niches", expanded=False):
+        st.markdown("**Optimized service types that return the highest quality leads:**")
+        cols = st.columns(4)
+        for i, keyword in enumerate(SERVICE_KEYWORDS):
+            with cols[i % 4]:
+                st.markdown(f'<div style="background:#e8f0fe;color:#1a73e8;padding:6px 10px;border-radius:16px;text-align:center;font-size:0.85rem;font-weight:500;margin:4px 0;">{keyword}</div>', unsafe_allow_html=True)
+
+    with st.expander("🌍 Supported Target Regions", expanded=False):
+        st.markdown("**Primary Western markets optimized for this tool:**")
+        regions = {
+            "🇺🇸 United States": ["New York NY", "Los Angeles CA", "Chicago IL", "Dallas TX", "Miami FL", "Houston TX", "Phoenix AZ", "Atlanta GA", "Seattle WA", "Denver CO"],
+            "🇬🇧 United Kingdom": ["London", "Manchester", "Birmingham", "Leeds", "Glasgow", "Liverpool", "Bristol", "Sheffield", "Edinburgh", "Cardiff"],
+            "🇨🇦 Canada": ["Toronto ON", "Vancouver BC", "Calgary AB", "Montreal QC", "Ottawa ON", "Edmonton AB", "Winnipeg MB", "Victoria BC"],
+            "🇦🇺 Australia": ["Sydney NSW", "Melbourne VIC", "Brisbane QLD", "Perth WA", "Adelaide SA", "Gold Coast QLD", "Canberra ACT"],
+            "🇪🇺 Europe": ["Dublin IE", "Berlin DE", "Paris FR", "Amsterdam NL", "Madrid ES", "Rome IT", "Vienna AT", "Zurich CH"],
+        }
+        for region, cities in regions.items():
+            st.markdown(f"**{region}**")
+            city_badges = " ".join([f'<span style="background:#f1f3f4;color:#3c4043;padding:4px 10px;border-radius:12px;font-size:0.8rem;margin:2px;display:inline-block;">{city}</span>' for city in cities])
+            st.markdown(city_badges, unsafe_allow_html=True)
+            st.markdown("")
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
     if generate_btn:
         if not service.strip() or not city.strip():
             st.warning("Please enter both a Service Type and a City.")
