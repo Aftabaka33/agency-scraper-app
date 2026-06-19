@@ -140,12 +140,12 @@ def extract_email_from_url(url, session, use_premium=False, api_key=None):
 
 
 def build_yellowpages_url(service, city, page=1):
-    query = f"{service} {city}"
-    encoded = quote_plus(query)
+    encoded_service = quote_plus(service.strip())
+    encoded_city = quote_plus(city.strip())
     base = "https://www.yellowpages.com/search"
     if page == 1:
-        return f"{base}?search_terms={encoded}"
-    return f"{base}?search_terms={encoded}&page={page}"
+        return f"{base}?search_terms={encoded_service}&geo_location_terms={encoded_city}"
+    return f"{base}?search_terms={encoded_service}&geo_location_terms={encoded_city}&page={page}"
 
 
 def parse_listing(container, service, city):
