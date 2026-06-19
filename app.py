@@ -76,8 +76,7 @@ PREMIUM_SCRAPER_URL = "http://api.scraperapi.com?api_key={api_key}&autoparse=tru
 # ---------------------------------------------------------------------------
 # Global Stop Registry (thread-safe cross-thread signaling)
 # ---------------------------------------------------------------------------
-if "GLOBAL_SCRAPE_STOPS" not in globals():
-    GLOBAL_SCRAPE_STOPS = {}
+GLOBAL_SCRAPE_STOPS = {}
 
 
 def get_session():
@@ -231,7 +230,6 @@ def parse_listing(container, service, city, country="US"):
 
 def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False, api_key=None):
     country = get_target_directory(city)
-    global GLOBAL_SCRAPE_STOPS
     GLOBAL_SCRAPE_STOPS["active_run"] = False
     """Synchronous scrape — safe to call from main Streamlit thread."""
     businesses = []
@@ -246,7 +244,6 @@ def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False
     log(f"⚙️ Pages: {max_pages} | Connection: {mode_label}")
 
     for page in range(1, max_pages + 1):
-        global GLOBAL_SCRAPE_STOPS
         if GLOBAL_SCRAPE_STOPS.get("active_run", False):
             log("🛑 Scrape stopped by user via global interruption signal.")
             break
@@ -426,7 +423,6 @@ def main():
 
     use_premium = "Turbo" in scrape_mode
 
-    global GLOBAL_SCRAPE_STOPS
     GLOBAL_SCRAPE_STOPS["active_run"] = False
 
     col_btn1, col_btn2 = st.columns(2)
