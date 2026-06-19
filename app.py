@@ -32,36 +32,333 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------------------------
-# Custom CSS
+# Custom CSS — premium, modern, professional
 # ---------------------------------------------------------------------------
 st.markdown(
     """
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+
     :root {
-        --primary: #1a73e8;
-        --success: #0f9d58;
-        --turbo: #f9ab00;
-        --bg: #f8f9fa;
+        --primary: #0a2540;
+        --primary-light: #1a3a5c;
+        --accent: #00b4d8;
+        --accent-hover: #0096c7;
+        --success: #06d6a0;
+        --warning: #ff9f1c;
+        --danger: #ef476f;
+        --bg: #f0f2f5;
         --card: #ffffff;
-        --text: #202124;
-        --border: #dadce0;
+        --text: #1a1a2e;
+        --text-secondary: #6b7280;
+        --border: #e5e7eb;
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+        --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+        --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+        --radius: 16px;
+        --radius-sm: 10px;
     }
-    html, body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-    .main-header { text-align: center; padding: 2rem 1rem 1rem; background: linear-gradient(135deg, #1a73e8 0%, #4285f4 50%, #0f9d58 100%); color: white; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 4px 20px rgba(26,115,232,0.25); }
-    .main-header h1 { font-size: 2rem; font-weight: 700; margin: 0; letter-spacing: -0.5px; }
-    .main-header p { font-size: 1.05rem; opacity: 0.92; margin-top: 0.5rem; }
-    .badge-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
-    .badge { background: rgba(255,255,255,0.2); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-    .card h3 { margin-top: 0; font-size: 1.1rem; }
-    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 1rem; }
-    .stat-box { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; text-align: center; }
-    .stat-box .value { font-size: 1.8rem; font-weight: 700; color: var(--primary); }
-    .stat-box .label { font-size: 0.8rem; color: #5f6368; margin-top: 0.25rem; }
-    .stDownloadButton>button { background: var(--success) !important; color: white !important; border: none !important; border-radius: 8px !important; padding: 0.75rem 2rem !important; font-size: 1.1rem !important; font-weight: 600 !important; width: 100% !important; }
-    .log-box { background: #1e1e1e; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.82rem; padding: 1rem; border-radius: 8px; max-height: 300px; overflow-y: auto; white-space: pre-wrap; word-wrap: break-word; }
-    .log-info { color: #4fc3f7; } .log-success { color: #81c784; } .log-warning { color: #ffb74d; } .log-error { color: #e57373; }
-    footer { text-align: center; padding: 2rem 1rem; color: #5f6368; font-size: 0.82rem; }
+
+    body { background: var(--bg); color: var(--text); }
+
+    /* Header */
+    .main-header {
+        text-align: center;
+        padding: 2.5rem 2rem 2rem;
+        background: linear-gradient(135deg, #0a2540 0%, #1a3a5c 40%, #00b4d8 100%);
+        color: white;
+        border-radius: var(--radius);
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-lg);
+        position: relative;
+        overflow: hidden;
+    }
+    .main-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 300px;
+        height: 300px;
+        background: rgba(255,255,255,0.03);
+        border-radius: 50%;
+    }
+    .main-header::after {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        left: -10%;
+        width: 200px;
+        height: 200px;
+        background: rgba(255,255,255,0.02);
+        border-radius: 50%;
+    }
+    .main-header h1 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin: 0;
+        letter-spacing: -0.5px;
+        position: relative;
+    }
+    .main-header p {
+        font-size: 1.05rem;
+        opacity: 0.9;
+        margin-top: 0.5rem;
+        font-weight: 400;
+        position: relative;
+    }
+    .badge-row {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 1.2rem;
+        position: relative;
+    }
+    .badge {
+        background: rgba(255,255,255,0.12);
+        backdrop-filter: blur(4px);
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+    /* Cards */
+    .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.75rem;
+        margin-bottom: 1.5rem;
+        box-shadow: var(--shadow-sm);
+        transition: box-shadow 0.2s ease;
+    }
+    .card:hover {
+        box-shadow: var(--shadow-md);
+    }
+    .card h3 {
+        margin: 0 0 1rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--primary);
+    }
+
+    /* Stats grid */
+    .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    .stat-box {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 1.2rem 1rem;
+        text-align: center;
+        transition: transform 0.15s ease, box-shadow 0.2s ease;
+    }
+    .stat-box:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+    .stat-box .value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--accent);
+        line-height: 1.2;
+    }
+    .stat-box .label {
+        font-size: 0.78rem;
+        color: var(--text-secondary);
+        margin-top: 0.3rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Buttons */
+    .stButton>button {
+        border-radius: var(--radius-sm) !important;
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+        padding: 0.65rem 1.5rem !important;
+        transition: all 0.2s ease !important;
+        box-shadow: var(--shadow-sm) !important;
+    }
+    .stButton>button[kind="primary"] {
+        background: linear-gradient(135deg, var(--accent), var(--accent-hover)) !important;
+        color: white !important;
+        border: none !important;
+    }
+    .stButton>button[kind="primary"]:hover {
+        transform: translateY(-1px) !important;
+        box-shadow: 0 4px 15px rgba(0, 180, 216, 0.35) !important;
+    }
+    .stButton>button[kind="secondary"] {
+        background: #f3f4f6 !important;
+        color: var(--text) !important;
+        border: 1px solid var(--border) !important;
+    }
+    .stButton>button[kind="secondary"]:hover {
+        background: #e5e7eb !important;
+    }
+
+    /* Download button */
+    .stDownloadButton>button {
+        background: linear-gradient(135deg, var(--success), #05b588) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: var(--radius-sm) !important;
+        padding: 0.75rem 2rem !important;
+        font-size: 1.05rem !important;
+        font-weight: 700 !important;
+        width: 100% !important;
+        transition: all 0.2s ease !important;
+        box-shadow: 0 4px 15px rgba(6, 214, 160, 0.25) !important;
+    }
+    .stDownloadButton>button:hover {
+        transform: translateY(-1px) !important;
+        box-shadow: 0 6px 20px rgba(6, 214, 160, 0.35) !important;
+    }
+
+    /* Log box */
+    .log-box {
+        background: #0d1117;
+        color: #e6edf3;
+        font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+        font-size: 0.8rem;
+        padding: 1rem 1.2rem;
+        border-radius: var(--radius-sm);
+        max-height: 350px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        line-height: 1.6;
+        border: 1px solid #30363d;
+    }
+    .log-info { color: #58a6ff; }
+    .log-success { color: #3fb950; }
+    .log-warning { color: #d29922; }
+    .log-error { color: #f85149; }
+
+    /* Inputs */
+    .stTextInput>div>div>input {
+        border-radius: var(--radius-sm) !important;
+        border: 1px solid var(--border) !important;
+        padding: 0.6rem 0.9rem !important;
+        font-size: 0.95rem !important;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+    }
+    .stTextInput>div>div>input:focus {
+        border-color: var(--accent) !important;
+        box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15) !important;
+    }
+    .stTextInput>div>div>input::placeholder {
+        color: #9ca3af;
+    }
+
+    /* Radio buttons */
+    .stRadio>div {
+        gap: 0.5rem;
+    }
+    .stRadio label {
+        background: #f3f4f6;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 0.6rem 1.2rem;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+    .stRadio label:hover {
+        border-color: var(--accent);
+        background: rgba(0, 180, 216, 0.05);
+    }
+    .stRadio [data-testid="stRadio"] div[data-testid="stMarkdownContainer"] label {
+        background: #f3f4f6;
+    }
+
+    /* Expanders */
+    .streamlit-expanderHeader {
+        font-weight: 600 !important;
+        font-size: 0.95rem !important;
+        color: var(--primary) !important;
+        background: #f9fafb !important;
+        border-radius: var(--radius-sm) !important;
+        padding: 0.6rem 1rem !important;
+        border: 1px solid var(--border) !important;
+    }
+    .streamlit-expanderHeader:hover {
+        background: #f3f4f6 !important;
+    }
+
+    /* Progress bar */
+    .stProgress > div > div > div {
+        background: linear-gradient(90deg, var(--accent), var(--success)) !important;
+        border-radius: 10px !important;
+    }
+
+    /* Footer */
+    footer {
+        text-align: center;
+        padding: 2rem 1rem;
+        color: var(--text-secondary);
+        font-size: 0.82rem;
+        font-weight: 400;
+    }
+
+    /* Spinner */
+    .stSpinner > div {
+        border-color: var(--accent) !important;
+    }
+
+    /* Info / Success / Warning boxes */
+    .stAlert {
+        border-radius: var(--radius-sm) !important;
+        font-size: 0.9rem !important;
+    }
+    .stInfo {
+        background: rgba(0, 180, 216, 0.08) !important;
+        border: 1px solid rgba(0, 180, 216, 0.2) !important;
+    }
+    .stWarning {
+        background: rgba(255, 159, 28, 0.08) !important;
+        border: 1px solid rgba(255, 159, 28, 0.2) !important;
+    }
+    .stError {
+        background: rgba(239, 71, 111, 0.08) !important;
+        border: 1px solid rgba(239, 71, 111, 0.2) !important;
+    }
+    .stSuccess {
+        background: rgba(6, 214, 160, 0.08) !important;
+        border: 1px solid rgba(6, 214, 160, 0.2) !important;
+    }
+
+    /* Niche badges */
+    .niche-badge {
+        background: #eef2ff;
+        color: #4f46e5;
+        padding: 5px 10px;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 0.82rem;
+        font-weight: 500;
+        margin: 3px 0;
+        display: inline-block;
+        width: 100%;
+        box-sizing: border-box;
+        transition: all 0.15s ease;
+    }
+    .niche-badge:hover {
+        background: #e0e7ff;
+        transform: translateY(-1px);
+    }
 </style>
 """,
     unsafe_allow_html=True,
@@ -70,17 +367,11 @@ st.markdown(
 # ---------------------------------------------------------------------------
 # Backend configuration
 # ---------------------------------------------------------------------------
-# Turbo Mode routes all requests through this endpoint to bypass Cloudflare.
 PREMIUM_SCRAPER_URL = "http://api.scraperapi.com?api_key={api_key}&autoparse=true&url={target_url}"
-
-# ---------------------------------------------------------------------------
-# Global Stop Registry (thread-safe cross-thread signaling)
-# ---------------------------------------------------------------------------
 GLOBAL_SCRAPE_STOPS = {}
 
 
 def get_session():
-    """Requests session with rotating headers."""
     s = requests.Session()
     s.headers.update({
         "User-Agent": UserAgent().random,
@@ -147,35 +438,23 @@ def extract_email_from_url(url, session, use_premium=False, api_key=None):
 def get_target_directory(city_input):
     city_lower = city_input.strip().lower()
     uk_markers = ["uk", "london", "england", "manchester", "birmingham", "scotland", "wales"]
-    ca_markers = ["canada", "ab", "bc", "on", "qc", "calgary", "toronto", "vancouver", "montreal"]
-    au_markers = ["au", "australia", "sydney", "melbourne", "brisbane", "perth"]
-    nz_markers = ["nz", "new zealand", "auckland", "wellington", "christchurch"]
+    eu_markers = ["europe", "dublin", "berlin", "paris", "amsterdam", "madrid", "rome", "vienna", "zurich", "brussels", "lisbon", "stockholm", "oslo", "copenhagen", "helsinki", "warsaw", "prague", "budapest", "dublin ie", "berlin de", "paris fr", "madrid es", "rome it", "vienna at", "zurich ch", "brussels be", "lisbon pt", "stockholm se", "oslo no", "copenhagen dk", "helsinki fi", "warsaw pl", "prague cz", "budapest hu"]
     for marker in uk_markers:
         if marker in city_lower:
             return "UK"
-    for marker in ca_markers:
+    for marker in eu_markers:
         if marker in city_lower:
-            return "CA"
-    for marker in au_markers:
-        if marker in city_lower:
-            return "AU"
-    for marker in nz_markers:
-        if marker in city_lower:
-            return "NZ"
+            return "EU"
     return "US"
 
 
 def build_yellowpages_url(service, city, page=1, country="US"):
     encoded_service = quote_plus(service.strip())
     encoded_city = quote_plus(city.strip())
-    if country == "CA":
-        return f"https://www.yellowpages.ca/search/si/{page}/{encoded_service}/{encoded_city}"
-    elif country == "UK":
+    if country == "UK":
         return f"https://www.yell.com/ucs/UcsSearchAction.do?keywords={encoded_service}&location={encoded_city}&pageNum={page}"
-    elif country == "AU":
-        return f"https://www.yellowpages.com.au/search/listings?clue={encoded_service}&locationClue={encoded_city}"
-    elif country == "NZ":
-        return f"https://yellow.co.nz/search/{encoded_service}/{encoded_city}"
+    elif country == "EU":
+        return f"https://www.europages.com/search/{encoded_service}/{encoded_city}"
     else:
         base = "https://www.yellowpages.com/search"
         if page == 1:
@@ -221,7 +500,7 @@ def parse_listing(container, service, city, country="US"):
             phone = extract_phone(container.get_text())
             for a in container.find_all("a", href=True):
                 href = a["href"]
-                if href.startswith("http") and "yellowpages.com" not in href and "yell.com" not in href and "yellowpages.com.au" not in href and "yellow.co.nz" not in href:
+                if href.startswith("http") and "yellowpages.com" not in href and "yell.com" not in href:
                     website = href
                     break
         if not name or len(name) < 2:
@@ -243,7 +522,6 @@ def parse_listing(container, service, city, country="US"):
 def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False, api_key=None):
     country = get_target_directory(city)
     GLOBAL_SCRAPE_STOPS["active_run"] = False
-    """Synchronous scrape — safe to call from main Streamlit thread."""
     businesses = []
     session = get_session()
     log_lines = []
@@ -251,16 +529,16 @@ def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False
     def log(msg):
         log_lines.append(msg)
 
-    mode_label = "⚡ Turbo Mode (Premium API)" if use_premium else "🚀 Standard Mode (Direct)"
-    log(f"🎯 Target: {service} in {city} ({country})")
-    log(f"⚙️ Pages: {max_pages} | Connection: {mode_label}")
+    mode_label = "Turbo Mode (Premium API)" if use_premium else "Standard Mode (Direct)"
+    log(f"Target: {service} in {city} ({country})")
+    log(f"Pages: {max_pages} | Connection: {mode_label}")
 
     for page in range(1, max_pages + 1):
         if GLOBAL_SCRAPE_STOPS.get("active_run", False):
-            log("🛑 Scrape stopped by user via global interruption signal.")
+            log("Scrape stopped by user via global interruption signal.")
             break
         if progress_callback:
-            progress_callback(page, max_pages, f"Page {page}/{max_pages} — fetching...")
+            progress_callback(page, max_pages, f"Page {page}/{max_pages} -- fetching...")
         url = build_yellowpages_url(service, city, page, country=country)
         try:
             random_delay()
@@ -322,16 +600,15 @@ def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False
                         if len(page_businesses) >= 20:
                             break
             businesses.extend(page_businesses)
-            log(f"✅ Page {page}: found {len(page_businesses)} leads")
+            log(f"Page {page}: found {len(page_businesses)} leads")
             if not page_businesses and page > 1:
-                log("⚠️ Very few results. Stopping early.")
+                log("Very few results. Stopping early.")
                 break
         except Exception as e:
-            log(f"❌ Error on page {page}: {e}")
+            log(f"Error on page {page}: {e}")
             continue
 
-    # Email enrichment
-    log(f"🔍 Enriching {len(businesses)} leads with emails...")
+    log(f"Enriching {len(businesses)} leads with emails...")
     for i, biz in enumerate(businesses):
         website = biz.get("Website URL", "")
         if website and website.startswith("http"):
@@ -339,7 +616,6 @@ def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False
         if (i + 1) % 10 == 0 and progress_callback:
             progress_callback(max_pages, max_pages, f"Enriching emails... {i+1}/{len(businesses)}")
 
-    # Deduplicate
     seen = set()
     unique = []
     for biz in businesses:
@@ -348,31 +624,31 @@ def scrape(service, city, max_pages=5, progress_callback=None, use_premium=False
             seen.add(key)
             unique.append(biz)
 
-    log(f"🎉 Scrape complete! {len(unique)} unique leads found.")
+    log(f"Scrape complete! {len(unique)} unique leads found.")
     return unique, log_lines
 
 
-# ---------------------------------------------------------------------------
-# Streamlit UI — clean, modern, no sidebar
-# ---------------------------------------------------------------------------
 def main():
+    # ── Header ──────────────────────────────────────────────────────
     st.markdown(
         """
     <div class="main-header">
-        <h1>🏠 Home Services Lead Scraper PRO</h1>
+        <h1> Home Services Lead Scraper PRO</h1>
         <p>Generate unlimited web design & SEO client leads in minutes</p>
         <div class="badge-row">
-            <span class="badge">⚡ Anti-Blocking</span>
-            <span class="badge">📊 CSV Export</span>
-            <span class="badge">🎯 Targeted Leads</span>
+            <span class="badge"> Anti-Blocking Engine</span>
+            <span class="badge"> CSV Export</span>
+            <span class="badge"> Multi-Region Support</span>
+            <span class="badge"> Dual Mode</span>
         </div>
     </div>
     """,
         unsafe_allow_html=True,
     )
 
+    # ── Target Input ────────────────────────────────────────────────
     st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.markdown("### 🎯 Define Your Target")
+    st.markdown("###  Define Your Target")
 
     col1, col2 = st.columns(2)
     with col1:
@@ -380,7 +656,7 @@ def main():
     with col2:
         city = st.text_input("City / Area", placeholder="e.g., Dallas TX, London UK, Chicago IL")
 
-    st.markdown("### ⚙️ Scrape Mode")
+    st.markdown("###  Scrape Mode")
     scrape_mode = st.radio(
         "Choose your connection method:",
         options=["Turbo Mode (High-Success Premium API)", "Standard Mode (Free Direct Connection)"],
@@ -391,18 +667,16 @@ def main():
 
     api_key = ""
     if "Turbo" in scrape_mode:
-        st.info("💡 **How to use Turbo Mode for free:** Sign up at ScraperAPI.com, copy your free API key, and paste it below.")
-        api_key = st.text_input("🔑 Enter your ScraperAPI Key", type="password")
+        st.info("**How to use Turbo Mode for free:** Sign up at ScraperAPI.com, copy your free API key, and paste it below.")
+        api_key = st.text_input("Enter your ScraperAPI Key", type="password")
     else:
-        st.warning("🚀 Standard Mode: Direct connection. May encounter blocks on some pages. Use Turbo Mode if results fail.")
+        st.warning("Standard Mode: Direct connection. May encounter blocks on some pages. Use Turbo Mode if results fail.")
 
     st.markdown("</div>", unsafe_allow_html=True)
 
-    # ------------------------------------------------------------------
-    # Supported Capabilities Legend (closed by default to keep UI clean)
-    # ------------------------------------------------------------------
+    # ── Supported Capabilities Legend ───────────────────────────────
     st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.markdown("### 💡 Supported Capabilities")
+    st.markdown("###  Supported Capabilities")
 
     SERVICE_KEYWORDS = [
         "Roofer", "Plumber", "Electrician", "HVAC", "Painter",
@@ -416,47 +690,42 @@ def main():
         "Framer", "General Contractor",
     ]
 
-    with st.expander("📋 View High-Yield Supported Niches", expanded=False):
+    with st.expander(" View High-Yield Supported Niches", expanded=False):
         st.markdown("**Optimized service types that return the highest quality leads:**")
         cols = st.columns(4)
         for i, keyword in enumerate(SERVICE_KEYWORDS):
             with cols[i % 4]:
-                st.markdown(f'<div style="background:#e8f0fe;color:#1a73e8;padding:6px 10px;border-radius:16px;text-align:center;font-size:0.85rem;font-weight:500;margin:4px 0;">{keyword}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="niche-badge">{keyword}</div>', unsafe_allow_html=True)
 
-    with st.expander("🌍 Supported Target Regions", expanded=False):
-        st.markdown("**Primary Western markets optimized for this tool:**")
-        regions = {
-            "🇺🇸 United States": ["New York NY", "Los Angeles CA", "Chicago IL", "Dallas TX", "Miami FL", "Houston TX", "Phoenix AZ", "Atlanta GA", "Seattle WA", "Denver CO"],
-            "🇬🇧 United Kingdom": ["London", "Manchester", "Birmingham", "Leeds", "Glasgow", "Liverpool", "Bristol", "Sheffield", "Edinburgh", "Cardiff"],
-            "🇨🇦 Canada": ["Toronto ON", "Vancouver BC", "Calgary AB", "Montreal QC", "Ottawa ON", "Edmonton AB", "Winnipeg MB", "Victoria BC"],
-            "🇦🇺 Australia": ["Sydney NSW", "Melbourne VIC", "Brisbane QLD", "Perth WA", "Adelaide SA", "Gold Coast QLD", "Canberra ACT"],
-            "🇪🇺 Europe": ["Dublin IE", "Berlin DE", "Paris FR", "Amsterdam NL", "Madrid ES", "Rome IT", "Vienna AT", "Zurich CH"],
-        }
-        for region, cities in regions.items():
-            st.markdown(f"**{region}**")
-            city_badges = " ".join([f'<span style="background:#f1f3f4;color:#3c4043;padding:4px 10px;border-radius:12px;font-size:0.8rem;margin:2px;display:inline-block;">{city}</span>' for city in cities])
-            st.markdown(city_badges, unsafe_allow_html=True)
-            st.markdown("")
+    with st.expander(" Supported Target Regions", expanded=False):
+        st.markdown("**Fully Supported Regions:**")
+        st.markdown("""
+- **United States (Standard & Turbo Mode):** Optimized for all US cities and states (e.g., Dallas TX, Miami FL).
+- **United Kingdom (Standard & Turbo Mode):** Fully supported via Yell.com integration (e.g., London UK, Manchester).
+- **Europe (Standard & Turbo Mode):** Supported via Europages integration (e.g., Paris France, Berlin Germany, Dublin Ireland).
+- **Rest of World:** For regions like Canada and Australia, you MUST use Turbo Mode with a Premium API Key to bypass regional security blocks.
+        """)
 
     st.markdown("</div>", unsafe_allow_html=True)
 
+    # ── Buttons ─────────────────────────────────────────────────────
     use_premium = "Turbo" in scrape_mode
-
     GLOBAL_SCRAPE_STOPS["active_run"] = False
 
     col1, col2 = st.columns([3, 1])
     with col1:
-        generate_clicked = st.button("🚀 Generate Leads", type="primary", use_container_width=True, key="btn_gen_leads_final_v1")
+        generate_clicked = st.button(" Generate Leads", type="primary", use_container_width=True, key="btn_gen_leads_final_v1")
     with col2:
-        stop_clicked = st.button("🛑 Stop", use_container_width=True, key="btn_stop_scrape_final_v1")
+        stop_clicked = st.button(" Stop", use_container_width=True, key="btn_stop_scrape_final_v1")
 
     if stop_clicked:
         GLOBAL_SCRAPE_STOPS["active_run"] = True
-        st.warning("🛑 Stop signal sent. Halting background worker safely...")
+        st.warning("Stop signal sent. Halting background worker safely...")
 
+    # ── Execution ───────────────────────────────────────────────────
     if generate_clicked:
         if "Turbo" in scrape_mode and not api_key.strip():
-            st.error("⚠️ You must enter a valid API Key to use Turbo Mode. Please enter your key or switch to Standard Mode.")
+            st.error("You must enter a valid API Key to use Turbo Mode. Please enter your key or switch to Standard Mode.")
             st.stop()
 
         if not service.strip() or not city.strip():
@@ -464,8 +733,10 @@ def main():
             st.stop()
 
         detected_country = get_target_directory(city)
-        if detected_country != "US":
-            st.info(f"🌍 Detected {detected_country} directory. Routing to yellowpages{'.ca' if detected_country == 'CA' else '.com/uk'}...")
+        if detected_country == "UK":
+            st.info("Detected UK directory. Routing to Yell.com for best results...")
+        elif detected_country == "EU":
+            st.info("Detected European directory. Routing to Europages for best results...")
 
         GLOBAL_SCRAPE_STOPS["active_run"] = False
         progress_bar = st.progress(0.0, text="Starting...")
@@ -486,12 +757,8 @@ def main():
         log_html = '<div class="log-box">'
         for entry in logs:
             level = "log-info"
-            if "❌" in entry or "error" in entry.lower():
+            if "Error" in entry or "error" in entry.lower():
                 level = "log-error"
-            elif "⚠️" in entry or "warning" in entry.lower():
-                level = "log-warning"
-            elif "🎉" in entry or "complete" in entry.lower():
-                level = "log-success"
             log_html += f'<span class="{level}">{entry}</span>\n'
         log_html += "</div>"
         log_placeholder.markdown(log_html, unsafe_allow_html=True)
@@ -504,7 +771,7 @@ def main():
         with_email = sum(1 for b in results if b.get("Email Address"))
         with_website = sum(1 for b in results if b.get("Website URL"))
         st.markdown('<div class="card">', unsafe_allow_html=True)
-        st.markdown("### 📊 Results")
+        st.markdown("###  Results")
         st.markdown('<div class="stat-grid">', unsafe_allow_html=True)
         st.markdown(f'<div class="stat-box"><div class="value">{len(results)}</div><div class="label">Total Leads</div></div>', unsafe_allow_html=True)
         st.markdown(f'<div class="stat-box"><div class="value">{with_phone}</div><div class="label">With Phone</div></div>', unsafe_allow_html=True)
@@ -521,14 +788,14 @@ def main():
         csv_bytes = csv_buf.getvalue().encode("utf-8-sig")
         filename = f"leads_{service}_{city}_{datetime.now().strftime('%Y%m%d_%H%M')}.csv"
 
-        st.success("✅ Scrape complete! Download your CSV below.")
-        st.download_button(label="📥 Download CSV File", data=csv_bytes, file_name=filename, mime="text/csv", use_container_width=True)
+        st.success("Scrape complete! Download your CSV below.")
+        st.download_button(label=" Download CSV File", data=csv_bytes, file_name=filename, mime="text/csv", use_container_width=True)
 
-        with st.expander("👁️ Preview first 20 leads"):
+        with st.expander(" Preview first 20 leads"):
             st.dataframe(df.head(20), use_container_width=True, hide_index=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-    st.markdown("<footer>Home Services Lead Scraper PRO · Your Unfair Advantage in Client Acquisition</footer>", unsafe_allow_html=True)
+    st.markdown("<footer>Home Services Lead Scraper PRO &mdash; Your Unfair Advantage in Client Acquisition</footer>", unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
