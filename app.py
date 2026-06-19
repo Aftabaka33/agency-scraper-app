@@ -148,12 +148,20 @@ def get_target_directory(city_input):
     city_lower = city_input.strip().lower()
     uk_markers = ["uk", "london", "england", "manchester", "birmingham", "scotland", "wales"]
     ca_markers = ["canada", "ab", "bc", "on", "qc", "calgary", "toronto", "vancouver", "montreal"]
+    au_markers = ["au", "australia", "sydney", "melbourne", "brisbane", "perth"]
+    nz_markers = ["nz", "new zealand", "auckland", "wellington", "christchurch"]
     for marker in uk_markers:
         if marker in city_lower:
             return "UK"
     for marker in ca_markers:
         if marker in city_lower:
             return "CA"
+    for marker in au_markers:
+        if marker in city_lower:
+            return "AU"
+    for marker in nz_markers:
+        if marker in city_lower:
+            return "NZ"
     return "US"
 
 
@@ -164,6 +172,10 @@ def build_yellowpages_url(service, city, page=1, country="US"):
         return f"https://www.yellowpages.ca/search/si/{page}/{encoded_service}/{encoded_city}"
     elif country == "UK":
         return f"https://www.yell.com/ucs/UcsSearchAction.do?keywords={encoded_service}&location={encoded_city}&pageNum={page}"
+    elif country == "AU":
+        return f"https://www.yellowpages.com.au/search/listings?clue={encoded_service}&locationClue={encoded_city}"
+    elif country == "NZ":
+        return f"https://yellow.co.nz/search/{encoded_service}/{encoded_city}"
     else:
         base = "https://www.yellowpages.com/search"
         if page == 1:
@@ -209,7 +221,7 @@ def parse_listing(container, service, city, country="US"):
             phone = extract_phone(container.get_text())
             for a in container.find_all("a", href=True):
                 href = a["href"]
-                if href.startswith("http") and "yellowpages.com" not in href and "yell.com" not in href:
+                if href.startswith("http") and "yellowpages.com" not in href and "yell.com" not in href and "yellowpages.com.au" not in href and "yellow.co.nz" not in href:
                     website = href
                     break
         if not name or len(name) < 2:
