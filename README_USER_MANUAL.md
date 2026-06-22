@@ -38,7 +38,7 @@ After installing, you'll have:
 
 | File | Description |
 |------|-------------|
-| `app.py` | The modern web app (Streamlit) with dual-mode scraping |
+| `app.py` | The modern web app (Streamlit) with Standard Mode scraping |
 | `agency_scraper.py` | The original command-line script for power users |
 | `requirements.txt` | List of required software libraries |
 | `README_USER_MANUAL.md` | This file |
@@ -170,7 +170,7 @@ deactivate
 
 This product includes **TWO** ways to run the scraper:
 
-- **Option A: Web App (Recommended)** — A modern, browser-based interface with dual-mode scraping
+- **Option A: Web App (Recommended)** — A modern, browser-based interface with Standard Mode scraping
 - **Option B: Command Line** — The original terminal-based script for advanced users
 
 ---
@@ -197,42 +197,19 @@ The web app gives you a clean, modern interface directly in your browser. No nee
    - Service Type: e.g., "roofer", "plumber", "electrician"
    - City / Area: e.g., "Dallas TX", "London UK", "Chicago IL"
 
-5. **Choose your Scrape Mode:**
-   - **Turbo Mode (Premium API)** — Routes requests through a premium proxy. Best for cloud hosting or if you're getting blocked. Requires a premium API key (ScraperAPI, ScrapingBee, etc.).
-   - **Standard Mode (Free Direct)** — Direct connection to Yellow Pages. Great for local use on your own machine. No API key needed.
+5. **Click "Generate Leads"** and watch the magic happen.
 
-6. **Click "Generate Leads"** and watch the magic happen.
-
-7. **Download your CSV** when the scrape finishes.
+6. **Download your CSV** when the scrape finishes.
 
 ---
 
-#### Deploying to the Cloud (Free Hosting)
+#### Access Code
 
-Want to access your scraper from anywhere, even on your phone? Deploy it for free on Streamlit Cloud:
+The web app is protected by an access code to prevent unauthorized use.
 
-1. **Get a premium scraping API key** (needed for cloud use):
-   - Sign up at [ScraperAPI.com](https://www.scraperapi.com) or [ScrapingBee.com](https://www.scrapingbee.com)
-   - Copy your API key
-
-2. **Push the code to GitHub:**
-   ```
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git remote add origin https://github.com/your-username/your-repo.git
-   git push -u origin main
-   ```
-
-3. **Deploy on Streamlit Cloud:**
-   - Go to [share.streamlit.io](https://share.streamlit.io)
-   - Sign in with your GitHub account
-   - Select your repository and the `app.py` file
-   - Click "Deploy"
-
-4. **Add your API key:**
-   - In the Streamlit Cloud dashboard, go to Settings → Secrets
-   - Add your API key (you'll need to update `app.py` to read from `st.secrets` instead of the hardcoded URL — contact support if you need help)
+- **Default access code:** `LEAD2026`
+- You'll be prompted to enter this code when you first open the app
+- The app will remember you're authenticated for the rest of your session
 
 ---
 
@@ -352,7 +329,6 @@ pip install streamlit
 2. Try a **different city** or **different service type**
 3. Make sure your **internet connection is stable**
 4. Some sites block scrapers — this is normal, just try again later
-5. If using Standard Mode, try switching to Turbo Mode
 
 ---
 
@@ -433,7 +409,7 @@ If you have a developer or tech-savvy friend, here's the technical stack:
 - **Web Framework:** Streamlit
 - **Libraries:** requests, beautifulsoup4, pandas, fake-useragent, streamlit, rich, tqdm
 - **Scraping Engine:** BeautifulSoup + requests targeting Yellow Pages static HTML
-- **Dual-Mode Engine:** Direct connection OR premium proxy API (ScraperAPI/ScrapingBee compatible)
+- **Scraping Engine:** Direct connection to Yellow Pages with anti-block measures
 - **Anti-Blocking:** Rotating User-Agents, random delays, session management
 - **Data Export:** Pandas DataFrame → UTF-8 CSV with BOM
 

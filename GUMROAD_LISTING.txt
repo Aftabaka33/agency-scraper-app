@@ -5,12 +5,12 @@
 ───────────────────────────────────────────────────────────────
 PRODUCT TITLE
 ───────────────────────────────────────────────────────────────
-Home Services Lead Scraper PRO — Unlimited Web Design & SEO Client Leads for Agencies (Yellow Pages Scraper, CSV Export, Dual-Mode Scraping)
+Home Services Lead Scraper PRO — Unlimited Web Design & SEO Client Leads for Agencies (Yellow Pages Scraper, CSV Export, Anti-Block Engine)
 
 ───────────────────────────────────────────────────────────────
 SUBTITLE / TAGLINE
 ───────────────────────────────────────────────────────────────
-Stop Cold Emailing Random Businesses. Get Pre-Qualified Local Service Leads on Demand — Now with Turbo Mode.
+Stop Cold Emailing Random Businesses. Get Pre-Qualified Local Service Leads on Demand.
 
 ───────────────────────────────────────────────────────────────
 PRICE
@@ -38,7 +38,7 @@ Most agencies waste time with:
 
 **Home Services Lead Scraper PRO** solves this in 60 seconds flat.
 
-Just type in a service (e.g., "roofer") and a city (e.g., "Dallas TX"), pick your mode, and get a clean CSV file with:
+Just type in a service (e.g., "roofer") and a city (e.g., "Dallas TX"), and get a clean CSV file with:
 
   ✅ Business Names
   ✅ Phone Numbers
@@ -50,12 +50,14 @@ That's it. Open the file. Start pitching.
 
 ---
 
-🆕 WHAT'S NEW — DUAL-MODE ENGINE:
+🛡️ ANTI-BLOCK ENGINE:
 
-  ⚡ Turbo Mode (Premium API) — Routes all requests through a high-success proxy. Bypasses Cloudflare and data-center IP blocks. Best for cloud hosting (Streamlit Cloud, Render, Heroku).
-  🚀 Standard Mode (Direct) — Free direct connection to Yellow Pages. Great for local use on your own machine.
+  • Rotating user-agents on every request
+  • Random delays between pages (2–5 seconds)
+  • Session management to stay under the radar
+  • Direct connection to Yellow Pages — no proxy needed
 
-Switch between modes instantly. No extra setup. No limits.
+No extra setup. No limits. Just reliable scraping.
 
 ---
 
@@ -75,7 +77,7 @@ Most lead gen tools charge $100-$500/month and give you LOW-QUALITY, outdated le
 
 This tool:
   ⚡ Scrapes LIVE Yellow Pages data — always current
-  ⚡ Dual-mode engine — free direct connection OR premium proxy for max reliability
+  ⚡ Built-in anti-blocking engine — rotates user-agents and adds random delays
   ⚡ UNLIMITED searches — no monthly limits
   ⚡ Includes ANTI-BLOCKING technology (rotating user-agents, random delays)
   ⚡ Exports directly to CSV — plug straight into Excel/Sheets
@@ -86,7 +88,7 @@ This tool:
 
 📂 WHAT'S INCLUDED?
 
-  • app.py — The complete Streamlit web app (dual-mode, synchronous, cloud-ready)
+  • app.py — The complete Streamlit web app (Standard Mode, synchronous, cloud-ready)
   • agency_scraper.py — Original CLI script for power users
   • requirements.txt — List of required libraries (Python 3.8+)
   • README_USER_MANUAL.md — Step-by-step instructions for non-technical users
@@ -100,7 +102,7 @@ This tool:
 1. Install Python (free, 2 minutes)
 2. Run: pip install -r requirements.txt
 3. Run: streamlit run app.py
-4. Choose Standard or Turbo mode, enter service + city, click Generate Leads
+4. Enter service + city, click Generate Leads
 5. Download your CSV and start pitching
 
 No complicated setup. No monthly fees.
@@ -112,21 +114,18 @@ No complicated setup. No monthly fees.
 **Web Designer → Roofing Companies**
   Service: "roofer"
   City: "Austin TX"
-  Mode: Turbo
   Output: 100+ roofing companies with websites, phones, and emails
   Your pitch: "Hey, I noticed your website could use an upgrade. I help roofers get more customers from their site. Want a free audit?"
 
 **SEO Agency → Plumbers**
   Service: "plumber"
   City: "Miami FL"
-  Mode: Standard
   Output: 80+ plumbing businesses
   Your pitch: "I help local plumbers rank #1 on Google. Free 15-min strategy call?"
 
 **WordPress Developer → Electricians**
   Service: "electrician"
   City: "Chicago IL"
-  Mode: Turbo
   Output: 120+ electrical contractors
   Your pitch: "Your current site is loading slow. I rebuild WordPress sites for electricians — 2-week turnaround."
 
@@ -139,7 +138,7 @@ No complicated setup. No monthly fees.
   • Results vary based on city size and service type — major metros return 100-200+ leads per search
   • Email extraction visits the business website's homepage only (not deep pages)
   • The script includes built-in delays to prevent being blocked
-  • Turbo Mode requires a premium scraping API key (ScraperAPI, ScrapingBee, or similar)
+  • No API key or proxy required — runs out of the box
 
 ---
 
