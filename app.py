@@ -27,7 +27,7 @@ import streamlit as st
 st.set_page_config(
     page_title="Lead Scraper PRO | ToolPilot Design",
     page_icon="🏠",
-    layout="centered",
+    layout="wide",
 )
 
 # ---------------------------------------------------------------------------
@@ -278,7 +278,7 @@ def scrape(service, city, max_pages=5, progress_callback=None):
 
 
 # ---------------------------------------------------------------------------
-# CSS Design System — 21st Magic Dark Edition
+# CSS Design System — Premium Light Edition
 # ---------------------------------------------------------------------------
 def inject_css():
     css_block = """
@@ -287,28 +287,29 @@ def inject_css():
     * { font-family: 'Inter', -apple-system, sans-serif; }
 
     :root {
-      --bg-base: #060B14;
-      --bg-surface: #0D1520;
-      --bg-elevated: #162032;
-      --bg-glass: rgba(255, 255, 255, 0.035);
-      --electric: #00D4FF;
-      --electric-dim: rgba(0, 212, 255, 0.12);
-      --electric-glow: rgba(0, 212, 255, 0.25);
-      --volt: #00FF85;
-      --volt-dim: rgba(0, 255, 133, 0.12);
-      --ember: #FF8C42;
-      --ember-dim: rgba(255, 140, 66, 0.12);
-      --rose: #FF3D6B;
-      --rose-dim: rgba(255, 61, 107, 0.12);
-      --text-primary: #E8F0FE;
-      --text-secondary: #7A8BA8;
-      --text-muted: #3D5068;
-      --border-subtle: rgba(255, 255, 255, 0.06);
-      --border-glow: rgba(0, 212, 255, 0.20);
-      --border-active: rgba(0, 212, 255, 0.50);
-      --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.40);
-      --shadow-float: 0 8px 40px rgba(0, 0, 0, 0.55);
-      --shadow-glow: 0 0 24px rgba(0, 212, 255, 0.15);
+      --bg-base: #FFFFFF;
+      --bg-surface: #F8F9FA;
+      --bg-elevated: #F4F5F7;
+      --bg-glass: rgba(255, 255, 255, 0.85);
+      --brand: #2563EB;
+      --brand-dark: #1D4ED8;
+      --brand-dim: rgba(37, 99, 235, 0.10);
+      --brand-glow: rgba(37, 99, 235, 0.22);
+      --volt: #10B981;
+      --volt-dim: rgba(16, 185, 129, 0.10);
+      --ember: #F59E0B;
+      --ember-dim: rgba(245, 158, 11, 0.10);
+      --rose: #EF4444;
+      --rose-dim: rgba(239, 68, 68, 0.10);
+      --text-primary: #1A1D20;
+      --text-secondary: #5A6472;
+      --text-muted: #8D96A3;
+      --border-subtle: rgba(0, 0, 0, 0.08);
+      --border-glow: rgba(37, 99, 235, 0.25);
+      --border-active: rgba(37, 99, 235, 0.45);
+      --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.05);
+      --shadow-float: 0 8px 32px rgba(0, 0, 0, 0.08);
+      --shadow-glow: 0 4px 20px rgba(37, 99, 235, 0.12);
       --r-sm: 8px;
       --r-md: 14px;
       --r-lg: 20px;
@@ -327,7 +328,7 @@ def inject_css():
     .block-container {
       background: transparent !important;
       padding-top: 1.5rem !important;
-      max-width: 900px !important;
+      max-width: 95% !important;
     }
 
     ::-webkit-scrollbar { width: 6px; }
@@ -335,8 +336,8 @@ def inject_css():
     ::-webkit-scrollbar-thumb { background: var(--border-glow); border-radius: 3px; }
 
     @keyframes pulse-glow {
-      0%, 100% { opacity: 0.15; transform: scale(1); }
-      50% { opacity: 0.30; transform: scale(1.08); }
+      0%, 100% { opacity: 0.08; transform: scale(1); }
+      50% { opacity: 0.18; transform: scale(1.06); }
     }
     @keyframes dot-pulse {
       0%, 100% { opacity: 1; }
@@ -348,7 +349,7 @@ def inject_css():
     }
 
     .hero-header {
-      background: linear-gradient(135deg, #060B14 0%, #0D1B30 45%, #091A28 100%);
+      background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: var(--r-xl);
       padding: 2.5rem 2rem 2rem;
@@ -363,57 +364,45 @@ def inject_css():
       top: -40%;
       left: 50%;
       transform: translateX(-50%);
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, var(--electric) 0%, transparent 70%);
-      opacity: 0.15;
-      animation: pulse-glow 4s ease-in-out infinite;
-      pointer-events: none;
-    }
-    .hero-grid {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 120px;
-      height: 120px;
-      background: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
-      background-size: 12px 12px;
-      mask-image: radial-gradient(ellipse at top right, black 30%, transparent 70%);
-      -webkit-mask-image: radial-gradient(ellipse at top right, black 30%, transparent 70%);
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, var(--brand) 0%, transparent 70%);
+      opacity: 0.10;
+      animation: pulse-glow 6s ease-in-out infinite;
       pointer-events: none;
     }
     .hero-title {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 800;
-      font-size: 2.2rem;
-      color: var(--electric);
+      font-size: 2.4rem;
+      color: var(--brand);
       margin: 0;
-      letter-spacing: -0.5px;
+      letter-spacing: -0.6px;
       position: relative;
     }
     .hero-tagline {
       color: var(--text-secondary);
-      font-size: 1rem;
-      margin-top: 0.5rem;
+      font-size: 1.05rem;
+      margin-top: 0.6rem;
       position: relative;
     }
     .badge-row {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       justify-content: center;
       flex-wrap: wrap;
-      margin-top: 1.2rem;
+      margin-top: 1.4rem;
       position: relative;
     }
     .badge-pill {
-      background: var(--bg-glass);
+      background: var(--bg-elevated);
       border: 1px solid var(--border-subtle);
       border-radius: 20px;
       padding: 6px 16px;
-      font-size: 0.78rem;
+      font-size: 0.82rem;
       font-weight: 600;
       color: var(--text-secondary);
-      letter-spacing: 0.3px;
+      letter-spacing: 0.2px;
     }
     .mode-indicator {
       display: inline-flex;
@@ -422,11 +411,11 @@ def inject_css():
       margin-top: 1rem;
       padding: 6px 18px;
       background: var(--volt-dim);
-      border: 1px solid rgba(0,255,133,0.25);
+      border: 1px solid rgba(16,185,129,0.22);
       border-radius: 20px;
       font-size: 0.82rem;
       font-weight: 600;
-      color: var(--volt);
+      color: #047857;
       position: relative;
     }
     .dot-live {
@@ -451,8 +440,8 @@ def inject_css():
       padding: 1.75rem 2rem;
       margin-bottom: 1.5rem;
       box-shadow: var(--shadow-card);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       transition: border-color 0.25s ease, box-shadow 0.25s ease;
     }
     .glass-card:hover {
@@ -486,13 +475,13 @@ def inject_css():
     .stat-card:hover {
       transform: translateY(-3px);
       border-color: var(--border-glow);
-      box-shadow: 0 6px 24px var(--electric-dim);
+      box-shadow: 0 8px 20px var(--brand-glow);
     }
     .stat-card .val {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 2.2rem;
       font-weight: 800;
-      color: var(--electric);
+      color: var(--brand);
       line-height: 1.1;
       letter-spacing: -1px;
     }
@@ -500,7 +489,7 @@ def inject_css():
       font-size: 0.72rem;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.7px;
       font-weight: 600;
       margin-top: 4px;
     }
@@ -525,9 +514,9 @@ def inject_css():
       transition: color 0.2s, background 0.2s !important;
     }
     .stTabs [aria-selected="true"] {
-      background: var(--electric-dim) !important;
-      color: var(--electric) !important;
-      border-bottom: 2px solid var(--electric) !important;
+      background: var(--brand-dim) !important;
+      color: var(--brand) !important;
+      border-bottom: 2px solid var(--brand) !important;
     }
     .stTabs [data-testid="stTabContent"] {
       background: var(--bg-surface) !important;
@@ -539,7 +528,7 @@ def inject_css():
 
     /* Inputs */
     .stTextInput > div > div > input {
-      background: var(--bg-elevated) !important;
+      background: #FFFFFF !important;
       border: 1px solid var(--border-subtle) !important;
       border-radius: var(--r-sm) !important;
       color: var(--text-primary) !important;
@@ -550,7 +539,7 @@ def inject_css():
     }
     .stTextInput > div > div > input:focus {
       border-color: var(--border-active) !important;
-      box-shadow: 0 0 0 3px var(--electric-dim) !important;
+      box-shadow: 0 0 0 3px var(--brand-dim) !important;
       outline: none !important;
     }
     .stTextInput > div > div > input::placeholder {
@@ -567,8 +556,8 @@ def inject_css():
 
     /* Buttons */
     .stButton > button[kind="primary"] {
-      background: linear-gradient(135deg, var(--electric), #0099BB) !important;
-      color: #060B14 !important;
+      background: var(--brand) !important;
+      color: #FFFFFF !important;
       font-family: 'Space Grotesk', sans-serif !important;
       font-weight: 700 !important;
       font-size: 1rem !important;
@@ -576,18 +565,19 @@ def inject_css():
       border: none !important;
       border-radius: var(--r-md) !important;
       padding: 0.75rem 2rem !important;
-      box-shadow: 0 4px 20px var(--electric-glow) !important;
+      box-shadow: 0 4px 16px var(--brand-glow) !important;
       transition: transform 0.15s ease, box-shadow 0.2s ease !important;
     }
     .stButton > button[kind="primary"]:hover {
       transform: translateY(-2px) !important;
-      box-shadow: 0 8px 28px var(--electric-glow) !important;
+      box-shadow: 0 8px 24px var(--brand-glow) !important;
+      background: var(--brand-dark) !important;
     }
     .stButton > button[kind="primary"]:active {
       transform: translateY(0px) scale(0.98) !important;
     }
     .stButton > button[kind="secondary"] {
-      background: transparent !important;
+      background: #FFFFFF !important;
       color: var(--text-secondary) !important;
       border: 1px solid var(--border-subtle) !important;
       border-radius: var(--r-md) !important;
@@ -602,8 +592,8 @@ def inject_css():
     }
 
     .stDownloadButton > button {
-      background: linear-gradient(135deg, var(--volt), #00CC6A) !important;
-      color: #060B14 !important;
+      background: var(--brand) !important;
+      color: #FFFFFF !important;
       font-family: 'Space Grotesk', sans-serif !important;
       font-weight: 700 !important;
       font-size: 1.05rem !important;
@@ -611,18 +601,19 @@ def inject_css():
       border-radius: var(--r-md) !important;
       width: 100% !important;
       padding: 0.85rem 2rem !important;
-      box-shadow: 0 4px 20px var(--volt-dim) !important;
+      box-shadow: 0 4px 16px var(--brand-glow) !important;
       transition: transform 0.15s ease, box-shadow 0.2s ease !important;
       letter-spacing: 0.2px !important;
     }
     .stDownloadButton > button:hover {
       transform: translateY(-2px) !important;
-      box-shadow: 0 8px 28px rgba(0, 255, 133, 0.30) !important;
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.28) !important;
+      background: var(--brand-dark) !important;
     }
 
     /* Progress */
     .stProgress > div > div > div {
-      background: linear-gradient(90deg, var(--electric) 0%, #00FFCC 50%, var(--electric) 100%) !important;
+      background: linear-gradient(90deg, var(--brand) 0%, #3B82F6 50%, var(--brand) 100%) !important;
       background-size: 200% auto !important;
       animation: shimmer 2s linear infinite !important;
       border-radius: 10px !important;
@@ -635,8 +626,8 @@ def inject_css():
 
     /* Log box */
     .log-terminal {
-      background: #020609;
-      border: 1px solid rgba(0, 212, 255, 0.10);
+      background: #F4F5F7;
+      border: 1px solid var(--border-subtle);
       border-radius: var(--r-md);
       padding: 1rem 1.25rem;
       font-family: 'JetBrains Mono', monospace;
@@ -646,17 +637,17 @@ def inject_css():
       overflow-y: auto;
       white-space: pre-wrap;
       word-break: break-word;
-      color: #58a6ff;
+      color: #1A1D20;
     }
-    .log-terminal .log-ok { color: #3fb950; }
-    .log-terminal .log-err { color: #ff7b72; }
-    .log-terminal .log-dim { color: #484f58; }
-    .log-terminal .log-hi { color: #00D4FF; }
+    .log-terminal .log-ok { color: #047857; }
+    .log-terminal .log-err { color: #DC2626; }
+    .log-terminal .log-dim { color: var(--text-muted); }
+    .log-terminal .log-hi { color: var(--brand); }
 
     /* Badges */
-    .badge-ok { background: rgba(0,255,133,0.12); color: #00FF85; border: 1px solid rgba(0,255,133,0.3); border-radius: 20px; padding: 3px 12px; font-size: 0.78rem; font-weight: 600; }
-    .badge-partial { background: rgba(255,140,66,0.12); color: #FF8C42; border: 1px solid rgba(255,140,66,0.3); border-radius: 20px; padding: 3px 12px; font-size: 0.78rem; font-weight: 600; }
-    .badge-no { background: rgba(255,61,107,0.12); color: #FF3D6B; border: 1px solid rgba(255,61,107,0.3); border-radius: 20px; padding: 3px 12px; font-size: 0.78rem; font-weight: 600; }
+    .badge-ok { background: var(--volt-dim); color: #047857; border: 1px solid rgba(16,185,129,0.25); border-radius: 20px; padding: 4px 12px; font-size: 0.82rem; font-weight: 600; }
+    .badge-partial { background: var(--ember-dim); color: #B45309; border: 1px solid rgba(245,158,11,0.25); border-radius: 20px; padding: 4px 12px; font-size: 0.82rem; font-weight: 600; }
+    .badge-no { background: var(--rose-dim); color: #DC2626; border: 1px solid rgba(239,68,68,0.25); border-radius: 20px; padding: 4px 12px; font-size: 0.82rem; font-weight: 600; }
 
     .service-grid {
       display: grid;
@@ -665,30 +656,30 @@ def inject_css():
       margin-top: 0.5rem;
     }
     .service-item {
-      background: var(--bg-elevated);
+      background: #FFFFFF;
       border: 1px solid var(--border-subtle);
       border-radius: var(--r-sm);
       padding: 0.8rem 1rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .service-item:hover { border-color: var(--border-glow); }
+    .service-item:hover { border-color: var(--border-glow); box-shadow: var(--shadow-glow); }
     .service-name {
       font-size: 0.85rem;
       font-weight: 500;
       color: var(--text-primary);
     }
     .bar-dot { font-size: 0.85rem; }
-    .bar-dot.filled.high { color: var(--electric); }
+    .bar-dot.filled.high { color: var(--brand); }
     .bar-dot.filled.good { color: var(--volt); }
     .bar-dot.filled.mid { color: var(--ember); }
     .bar-dot.filled.low { color: var(--text-muted); }
     .bar-dot.empty { color: var(--text-muted); opacity: 0.3; }
 
     .tip-card {
-      background: var(--bg-elevated);
+      background: #FFFFFF;
       border: 1px solid var(--border-subtle);
       border-radius: var(--r-md);
       padding: 1.25rem;
@@ -726,7 +717,7 @@ def inject_css():
     }
     .legend-table td {
       padding: 0.7rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--border-subtle);
       color: var(--text-secondary);
       vertical-align: middle;
     }
@@ -735,11 +726,11 @@ def inject_css():
     .auto-detect-note {
       margin-top: 1rem;
       padding: 0.65rem 1rem;
-      background: var(--electric-dim);
+      background: var(--brand-dim);
       border: 1px solid var(--border-glow);
       border-radius: var(--r-sm);
       font-size: 0.83rem;
-      color: var(--electric);
+      color: var(--brand);
       font-weight: 500;
     }
 
@@ -748,7 +739,7 @@ def inject_css():
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      background: var(--bg-elevated);
+      background: #FFFFFF;
       border: 1px solid var(--border-subtle);
       border-radius: 20px;
       padding: 5px 14px;
@@ -760,9 +751,9 @@ def inject_css():
       font-family: 'Inter', sans-serif;
     }
     .chip:hover {
-      border-color: var(--electric);
-      color: var(--electric);
-      background: var(--electric-dim);
+      border-color: var(--brand);
+      color: var(--brand);
+      background: var(--brand-dim);
     }
 
     .unlock-wrapper {
@@ -773,7 +764,7 @@ def inject_css():
       padding: 2rem;
     }
     .unlock-card {
-      background: var(--bg-surface);
+      background: #FFFFFF;
       border: 1px solid var(--border-subtle);
       border-radius: var(--r-xl);
       padding: 3rem 2.5rem;
@@ -807,9 +798,9 @@ def inject_css():
       letter-spacing: 0.3px;
     }
     .app-footer a {
-      color: var(--electric);
+      color: var(--brand);
       text-decoration: none;
-      opacity: 0.8;
+      opacity: 0.85;
       transition: opacity 0.2s;
     }
     .app-footer a:hover { opacity: 1; }
@@ -820,28 +811,28 @@ def inject_css():
       font-family: 'Inter', sans-serif !important;
     }
     [data-baseweb="notification"][kind="info"] {
-      background: var(--electric-dim) !important;
+      background: var(--brand-dim) !important;
       border-color: var(--border-glow) !important;
-      color: var(--electric) !important;
+      color: var(--brand) !important;
     }
     [data-baseweb="notification"][kind="warning"] {
       background: var(--ember-dim) !important;
-      border-color: rgba(255,140,66,0.30) !important;
+      border-color: rgba(245,158,11,0.30) !important;
       color: var(--ember) !important;
     }
     [data-baseweb="notification"][kind="error"] {
       background: var(--rose-dim) !important;
-      border-color: rgba(255,61,107,0.30) !important;
+      border-color: rgba(239,68,68,0.30) !important;
       color: var(--rose) !important;
     }
     [data-baseweb="notification"][kind="positive"] {
       background: var(--volt-dim) !important;
-      border-color: rgba(0,255,133,0.30) !important;
+      border-color: rgba(16,185,129,0.30) !important;
       color: var(--volt) !important;
     }
 
     .streamlit-expanderHeader {
-      background: var(--bg-elevated) !important;
+      background: #FFFFFF !important;
       border: 1px solid var(--border-subtle) !important;
       border-radius: var(--r-sm) !important;
       color: var(--text-primary) !important;
@@ -853,7 +844,7 @@ def inject_css():
     .streamlit-expanderHeader:hover {
       border-color: var(--border-glow) !important;
     }
-    .stSpinner > div { border-color: var(--electric) !important; }
+    .stSpinner > div { border-color: var(--brand) !important; }
     </style>
     """
     st.markdown(css_block, unsafe_allow_html=True)
@@ -894,13 +885,12 @@ def render_header():
         """
     <div class="hero-header">
       <div class="hero-glow"></div>
-      <div class="hero-grid"></div>
       <h1 class="hero-title">🏠 Home Services Lead Scraper PRO</h1>
-      <p class="hero-tagline">Generate unlimited web design & SEO client leads — US & UK Standard Mode</p>
+      <p class="hero-tagline">Generate unlimited web design & SEO client leads — US, UK & Europe Standard Mode</p>
       <div class="badge-row">
         <span class="badge-pill" style="border-color: var(--volt);">🟢 Live Data</span>
-        <span class="badge-pill" style="border-color: var(--electric);">📍 US & UK Supported</span>
-        <span class="badge-pill" style="border-color: var(--electric);">📥 CSV Export</span>
+        <span class="badge-pill" style="border-color: var(--brand);">📍 US, UK & Europe</span>
+        <span class="badge-pill" style="border-color: var(--brand);">📥 CSV Export</span>
         <span class="badge-pill" style="border-color: var(--ember);">🛡️ Anti-Block Engine</span>
       </div>
       <div class="mode-indicator">
@@ -943,143 +933,182 @@ def render_target_card():
 
 
 # ---------------------------------------------------------------------------
-# Compatibility & Coverage Legend
+# Pro Tips
 # ---------------------------------------------------------------------------
 def render_legend():
     st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.markdown("### 🌍 Region & Service Coverage")
 
-    tab1, tab2, tab3 = st.tabs(["🌍 Region Coverage", "🔧 Service Compatibility", "💡 Pro Tips"])
-
-    with tab1:
-        st.markdown("""
+    st.markdown("""
     <table class="legend-table">
       <thead>
         <tr>
-          <th>Region</th>
-          <th>Country / Cities</th>
-          <th>Status</th>
-          <th>Directory</th>
+          <th>Service Type</th>
+          <th>United States</th>
+          <th>United Kingdom</th>
+          <th>Europe</th>
+          <th>Canada</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>🇺🇸 United States</td>
-          <td>All major cities — NYC, LA, Chicago, Houston, Dallas, Phoenix, Miami, Seattle, Denver, Atlanta</td>
+          <td>HVAC / Air Conditioning</td>
           <td><span class="badge-ok">✅ Fully Supported</span></td>
-          <td>yellowpages.com</td>
-        </tr>
-        <tr>
-          <td>🇬🇧 United Kingdom</td>
-          <td>London, Manchester, Birmingham, Glasgow, Liverpool, Bristol, Leeds, Sheffield, Edinburgh, Cardiff</td>
           <td><span class="badge-ok">✅ Fully Supported</span></td>
-          <td>yell.com</td>
-        </tr>
-        <tr>
-          <td>🇨🇦 Canada</td>
-          <td>Toronto, Vancouver, Calgary, Montreal, Ottawa, Edmonton</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
           <td><span class="badge-partial">⚠️ Partial</span></td>
-          <td>yellowpages.ca*</td>
         </tr>
         <tr>
-          <td>🇦🇺 Australia</td>
-          <td>Sydney, Melbourne, Brisbane, Perth</td>
-          <td><span class="badge-no">❌ Not Supported</span></td>
-          <td>—</td>
+          <td>Plumber / Plumbing</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-partial">⚠️ Partial</span></td>
         </tr>
         <tr>
-          <td>🇪🇺 Europe</td>
-          <td>France, Germany, Italy, Spain, Netherlands, Belgium, Portugal, etc.</td>
-          <td><span class="badge-no">❌ Not Supported</span></td>
-          <td>—</td>
+          <td>Roofer / Roofing</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-partial">⚠️ Partial</span></td>
         </tr>
         <tr>
-          <td>🌏 Asia / ROW</td>
-          <td>All other regions</td>
-          <td><span class="badge-no">❌ Not Supported</span></td>
-          <td>—</td>
+          <td>Electrician / Electrical</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-partial">⚠️ Partial</span></td>
+        </tr>
+        <tr>
+          <td>Pest Control</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-partial">⚠️ Partial</span></td>
+        </tr>
+        <tr>
+          <td>House Cleaning / Maid Service</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-partial">⚠️ Partial</span></td>
+        </tr>
+        <tr>
+          <td>Landscaper / Lawn Care</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-partial">⚠️ Partial</span></td>
+        </tr>
+        <tr>
+          <td>Painter / Painting</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-partial">⚠️ Partial</span></td>
+        </tr>
+        <tr>
+          <td>Tree Service</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-partial">⚠️ Partial</span></td>
+        </tr>
+        <tr>
+          <td>Flooring</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-partial">⚠️ Partial</span></td>
+        </tr>
+        <tr>
+          <td>Pool Service</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-partial">⚠️ Partial</span></td>
+        </tr>
+        <tr>
+          <td>Remodeling / Contractor</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-partial">⚠️ Partial</span></td>
+        </tr>
+        <tr>
+          <td>Pressure Washing</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-partial">⚠️ Partial</span></td>
+        </tr>
+        <tr>
+          <td>Appliance Repair</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-partial">⚠️ Partial</span></td>
+        </tr>
+        <tr>
+          <td>Carpet Cleaning</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-partial">⚠️ Partial</span></td>
+        </tr>
+        <tr>
+          <td>Locksmith</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-partial">⚠️ Partial</span></td>
+        </tr>
+        <tr>
+          <td>Junk Removal</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-partial">⚠️ Partial</span></td>
+        </tr>
+        <tr>
+          <td>Solar / Radon / Niche</td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-ok">✅ Fully Supported</span></td>
+          <td><span class="badge-partial">⚠️ Partial</span></td>
         </tr>
       </tbody>
     </table>
     """, unsafe_allow_html=True)
-        st.markdown('<p style="font-size:0.78rem;color:var(--text-muted);margin-top:0.75rem;">* Canada results may be limited. Scraper targets yellowpages.ca — success varies by city and service.</p>', unsafe_allow_html=True)
-        st.markdown('<div class="auto-detect-note">🔍 When you type a city, the app auto-detects whether to use Yellow Pages (US) or Yell.com (UK).</div>', unsafe_allow_html=True)
 
-    with tab2:
-        service_data = [
-            ("HVAC / Air Conditioning", "🌡️", 4, "80–150+ leads"),
-            ("Plumber / Plumbing", "🔧", 4, "80–150+ leads"),
-            ("Roofer / Roofing", "🏠", 4, "100–200+ leads"),
-            ("Electrician / Electrical", "⚡", 4, "80–140+ leads"),
-            ("Pest Control", "🐛", 4, "60–120 leads"),
-            ("House Cleaning / Maid Service", "🧹", 3, "60–100 leads"),
-            ("Landscaper / Lawn Care", "🌿", 3, "50–100 leads"),
-            ("Painter / Painting", "🎨", 3, "50–90 leads"),
-            ("Tree Service", "🌳", 3, "40–80 leads"),
-            ("Flooring", "🪵", 3, "30–70 leads"),
-            ("Pool Service", "🏊", 2, "30–60 leads"),
-            ("Remodeling / Contractor", "🔨", 2, "30–60 leads"),
-            ("Pressure Washing", "💧", 2, "20–50 leads"),
-            ("Appliance Repair", "🔌", 2, "15–40 leads"),
-            ("Carpet Cleaning", "🧽", 2, "15–35 leads"),
-            ("Locksmith", "🔑", 1, "10–30 leads"),
-            ("Junk Removal", "🗑️", 1, "10–25 leads"),
-            ("Solar / Radon / Niche", "☀️", 1, "5–20 leads"),
-        ]
+    st.markdown("---")
+    st.markdown("### 💡 Pro Tips")
 
-        def bar_class(count):
-            if count == 4:
-                return "high"
-            elif count == 3:
-                return "good"
-            elif count == 2:
-                return "mid"
-            else:
-                return "low"
-
-        items_html = ""
-        for name, emoji, filled, volume in service_data:
-            cls = bar_class(filled)
-            dots = ""
-            for i in range(4):
-                if i < filled:
-                    dots += f'<span class="bar-dot filled {cls}">●</span>'
-                else:
-                    dots += f'<span class="bar-dot empty">○</span>'
-            items_html += f"""
-            <div class="service-item">
-              <span class="service-name">{emoji} {name}</span>
-              <span>{dots}</span>
-            </div>
-            """
-
-        st.markdown(f'<div class="service-grid">{items_html}</div>', unsafe_allow_html=True)
-
-    with tab3:
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.markdown("""
-            <div class="tip-card">
-              <div class="tip-icon">🏙️</div>
-              <div class="tip-title">Best Cities to Target</div>
-              <div class="tip-body">Aim for mid-size metros (pop. 300K–2M) for the best results. Large cities like NYC or LA return 200+ leads but are highly competitive. Try Austin TX, Nashville TN, Charlotte NC, or Tampa FL for high-quality, less-saturated lists.</div>
-            </div>
-            """, unsafe_allow_html=True)
-        with col2:
-            st.markdown("""
-            <div class="tip-card">
-              <div class="tip-icon">📋</div>
-              <div class="tip-title">Using Your Leads</div>
-              <div class="tip-body">Open the CSV in Google Sheets or Excel. Filter for rows with both a phone number AND a website — these are your highest-quality prospects. Prioritise businesses with older-looking websites or missing emails, as they're most likely to need your services.</div>
-            </div>
-            """, unsafe_allow_html=True)
-        with col3:
-            st.markdown("""
-            <div class="tip-card">
-              <div class="tip-icon">⚡</div>
-              <div class="tip-title">Getting Better Results</div>
-              <div class="tip-body">Run the scraper at different times (morning 9–11 AM works best). If you get 0 results, try a broader service term — use "plumber" instead of "emergency plumber". Wait 10–15 minutes between runs on the same city to avoid temporary blocks.</div>
-            </div>
-            """, unsafe_allow_html=True)
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.markdown("""
+        <div class="tip-card">
+          <div class="tip-icon">🏙️</div>
+          <div class="tip-title">Best Cities to Target</div>
+          <div class="tip-body">Aim for mid-size metros (pop. 300K–2M) for the best results. Large cities like NYC or LA return 200+ leads but are highly competitive. Try Austin TX, Nashville TN, Charlotte NC, or Tampa FL for high-quality, less-saturated lists.</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with col2:
+        st.markdown("""
+        <div class="tip-card">
+          <div class="tip-icon">📋</div>
+          <div class="tip-title">Using Your Leads</div>
+          <div class="tip-body">Open the CSV in Google Sheets or Excel. Filter for rows with both a phone number AND a website — these are your highest-quality prospects. Prioritise businesses with older-looking websites or missing emails, as they're most likely to need your services.</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with col3:
+        st.markdown("""
+        <div class="tip-card">
+          <div class="tip-icon">⚡</div>
+          <div class="tip-title">Getting Better Results</div>
+          <div class="tip-body">Run the scraper at different times (morning 9–11 AM works best). If you get 0 results, try a broader service term — use "plumber" instead of "emergency plumber". Wait 10–15 minutes between runs on the same city to avoid temporary blocks.</div>
+        </div>
+        """, unsafe_allow_html=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
 
