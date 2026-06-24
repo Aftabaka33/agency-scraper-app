@@ -1,0 +1,22 @@
+HOME SERVICES LEAD SCRAPER PRO - PERSONAL USE LICENSE
+=======================================================
+
+Copyright (c) 2026 Blue Ocean Digital Products
+All Rights Reserved.
+
+This license grants the original purchaser a non-exclusive, non-transferrable license to use this software for personal or internal business purposes only.
+
+PERMITTED:
+- Use the script for personal lead generation
+- Run the scraper for your own agency or business
+- Modify the code for your own use
+- Share results (leads) with your team
+
+PROHIBITED:
+- Reselling or redistributing this tool or derivatives
+- Sharing the script publicly without permission
+- Using for bulk data scraping services sold to third parties
+- Claiming authorship of the code
+- Removing or altering this license
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.

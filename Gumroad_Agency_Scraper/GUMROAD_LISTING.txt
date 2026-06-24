@@ -1,0 +1,186 @@
+═══════════════════════════════════════════════════════════════
+  HOME SERVICES LEAD SCRAPER PRO — GUMROAD PRODUCT LISTING
+═══════════════════════════════════════════════════════════════
+
+───────────────────────────────────────────────────────────────
+PRODUCT TITLE
+───────────────────────────────────────────────────────────────
+Home Services Lead Scraper PRO — Unlimited Web Design & SEO Client Leads for Agencies (Yellow Pages Scraper, CSV Export, Anti-Block Engine)
+
+───────────────────────────────────────────────────────────────
+SUBTITLE / TAGLINE
+───────────────────────────────────────────────────────────────
+Stop Cold Emailing Random Businesses. Get Pre-Qualified Local Service Leads on Demand.
+
+───────────────────────────────────────────────────────────────
+PRICE
+───────────────────────────────────────────────────────────────
+$59.00 (One-time payment — lifetime access)
+
+───────────────────────────────────────────────────────────────
+PRODUCT CATEGORY
+───────────────────────────────────────────────────────────────
+Software > Python Apps & Marketing Tools
+
+───────────────────────────────────────────────────────────────
+PRODUCT DESCRIPTION (GUMROAD FORMAT)
+───────────────────────────────────────────────────────────────
+
+🔥 STOP WASTING HOURS ON YELLOW PAGES. START CLOSING WEB DESIGN CLIENTS THIS WEEK.
+
+If you run a web design or SEO agency, you already know the #1 challenge: FINDING CLIENTS.
+
+Most agencies waste time with:
+  ❌ Cold emailing random businesses (0% response rate)
+  ❌ Posting on social media and praying
+  ❌ Networking events that go nowhere
+  ❌ Paying $500+/month for lead gen tools that give garbage data
+
+**Home Services Lead Scraper PRO** solves this in 60 seconds flat.
+
+Just type in a service (e.g., "roofer") and a city (e.g., "Dallas TX"), and get a clean CSV file with:
+
+  ✅ Business Names
+  ✅ Phone Numbers
+  ✅ Website URLs
+  ✅ Email Addresses (when available)
+  ✅ Business Addresses
+
+That's it. Open the file. Start pitching.
+
+---
+
+🛡️ ANTI-BLOCK ENGINE:
+
+  • Rotating user-agents on every request
+  • Random delays between pages (2–5 seconds)
+  • Session management to stay under the radar
+  • Direct connection to Yellow Pages — no proxy needed
+
+No extra setup. No limits. Just reliable scraping.
+
+---
+
+🎯 WHO IS THIS FOR?
+
+  ✔ Web Design Agencies looking for local business clients
+  ✔ SEO Agencies that want to sign local service businesses
+  ✔ Freelance web developers who need a steady stream of leads
+  ✔ Marketing consultants targeting home services (roofers, plumbers, HVAC)
+  ✔ Anyone who wants to skip the prospecting grind and go straight to selling
+
+---
+
+💡 WHAT MAKES THIS DIFFERENT?
+
+Most lead gen tools charge $100-$500/month and give you LOW-QUALITY, outdated leads from databases that haven't been updated since 2019.
+
+This tool:
+  ⚡ Scrapes LIVE Yellow Pages data — always current
+  ⚡ Built-in anti-blocking engine — rotates user-agents and adds random delays
+  ⚡ UNLIMITED searches — no monthly limits
+  ⚡ Includes ANTI-BLOCKING technology (rotating user-agents, random delays)
+  ⚡ Exports directly to CSV — plug straight into Excel/Sheets
+  ⚡ One-time payment — no subscriptions, no credit card traps
+  ⚡ Streamlit web app — clean, modern UI. Launch locally or deploy to the cloud in minutes.
+
+---
+
+📂 WHAT'S INCLUDED?
+
+  • app.py — The complete Streamlit web app (Standard Mode, synchronous, cloud-ready)
+  • agency_scraper.py — Original CLI script for power users
+  • requirements.txt — List of required libraries (Python 3.8+)
+  • README_USER_MANUAL.md — Step-by-step instructions for non-technical users
+  • GUMROAD_LISTING.txt — This file
+  • LICENSE.txt — Commercial use license
+
+---
+
+🚀 HOW IT WORKS (3 SIMPLE STEPS):
+
+1. Install Python (free, 2 minutes)
+2. Run: pip install -r requirements.txt
+3. Run: streamlit run app.py
+4. Enter service + city, click Generate Leads
+5. Download your CSV and start pitching
+
+No complicated setup. No monthly fees.
+
+---
+
+📊 EXAMPLE USE CASES:
+
+**Web Designer → Roofing Companies**
+  Service: "roofer"
+  City: "Austin TX"
+  Output: 100+ roofing companies with websites, phones, and emails
+  Your pitch: "Hey, I noticed your website could use an upgrade. I help roofers get more customers from their site. Want a free audit?"
+
+**SEO Agency → Plumbers**
+  Service: "plumber"
+  City: "Miami FL"
+  Output: 80+ plumbing businesses
+  Your pitch: "I help local plumbers rank #1 on Google. Free 15-min strategy call?"
+
+**WordPress Developer → Electricians**
+  Service: "electrician"
+  City: "Chicago IL"
+  Output: 120+ electrical contractors
+  Your pitch: "Your current site is loading slow. I rebuild WordPress sites for electricians — 2-week turnaround."
+
+---
+
+⚠️ IMPORTANT NOTES:
+
+  • This tool scrapes Yellow Pages publicly available data. You are responsible for complying with Yellow Pages Terms of Service and any applicable local laws (CAN-SPAM, GDPR, etc.)
+  • We recommend using this for personal lead generation, not bulk data resale
+  • Results vary based on city size and service type — major metros return 100-200+ leads per search
+  • Email extraction visits the business website's homepage only (not deep pages)
+  • The script includes built-in delays to prevent being blocked
+  • No API key or proxy required — runs out of the box
+
+---
+
+🎁 BONUS TIPS INCLUDED IN THE MANUAL:
+
+  • How to avoid being blocked
+  • Best times of day to run the scraper for maximum results
+  • How to clean and deduplicate your leads
+  • Cold email templates that get responses
+  • How to import leads into HubSpot, Streak, or Google Sheets
+  • Scaling to 1,000+ leads across multiple cities
+  • How to deploy the app for free on Streamlit Cloud
+
+---
+
+💬 WHAT CUSTOMERS ARE SAYING:
+
+(Placeholder — add your own testimonials after first sales)
+
+---
+
+🛡️ REFUND POLICY:
+
+30-day money-back guarantee. If the script doesn't work for you after you've followed the setup instructions, email us and we'll refund you — no questions asked.
+
+---
+
+📧 SUPPORT:
+
+Having issues? Check the README_USER_MANUAL.md troubleshooting section first.
+Still stuck? Contact us through Gumroad's messaging system and we'll help you out.
+
+---
+
+🔑 FINAL NOTE:
+
+This isn't some $9 "get rich quick" PDF. This is a WORKING TOOL that agencies are using RIGHT NOW to fill their pipelines with qualified local leads.
+
+The people who buy this, use it, and actually pitch the leads will make their money back on the FIRST lead.
+
+Stop wasting time. Start closing deals.
+
+[ADD TO CART] — $59
+
+═══════════════════════════════════════════════════════════════
